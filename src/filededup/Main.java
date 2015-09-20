@@ -35,10 +35,10 @@ public class Main {
                 return;
         }
     
-//TODO        if( args.length == 1 ) {
-//            DirDeduper dirDedupe = new DirDeduper( args );
-//            dirDedupe.go();
-//        }
+        if( args.length == 1 ) {
+            DirDeduper dirDedupe = new DirDeduper( args[0] );
+            dirDedupe.go();
+        }
         else 
         if( args.length == 2 ) {
             FilesDeduper filesDedupe = new FilesDeduper( args );

@@ -10,9 +10,9 @@ package filededup;
 
 import java.io.File;
 /**
- * Convert command-line args, which are the file names, to Java Files
- * and then call the file-comparison routine, and output the result of
- * the file comparison.
+ * Convert command-line args, which are the file names, to Files
+ * and then call the file-comparison routine, and output the result 
+ * of the file comparison.
  * 
  * @author alb
  */
