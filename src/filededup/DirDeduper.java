@@ -10,58 +10,75 @@ package filededup;
 
 import java.io.File;
 import java.nio.file.*;
-import java.util.stream.Stream;
+import java.util.*;
+import com.google.common.collect.*;
 
 /**
  * De-duplicates a directory
  * @author alb (Andrew Binstock)
  */
-public class DirDeduper {
-    File dir;
-    String origPath;
-    int i = 0;
-    
-    public DirDeduper( String pathToDir ) {
+class DirDeduper {
+    private File dir;
+    private String origPath;
+//    private LinkedList<Long, Path> hashTable[] = new LinkedList[1021];
+    private TreeMultimap<Long, String> chksumTable;
+    private boolean duplicatesFound = false;
+
+    DirDeduper(String pathToDir) {
         origPath = pathToDir;
         dir = new File( pathToDir );
     }
     
-    public int go()
-    {
-        if( ! dir.isDirectory() ) {
-            System.err.println( "Error: " + origPath + " is not a directory" );
+    int go() {
+
+        if( !dir.isDirectory() ) {
+            System.err.println("Error: " + origPath + " is not a directory");
             return( Status.FILE_ERROR );
         }
-        
-        Path path = FileSystems.getDefault().getPath( origPath );
 
-        try (
-            Stream<Path> entries = Files.walk( path )
-                                        .filter( p-> p.toFile().isFile())
-                                        .peek(p->treadle(p)))
-//                                        .peek(System.out::println))
-        {
-            Object[] entriesArray = entries.toArray();
-       
-//                 Files.walk( path )
-//                      .filter( p-> p.toFile().isFile()).toArray(); 
-//            
-            for( Object f: entriesArray )
-                System.out.println( f.toString() );
-////            { 
-//                Object allFiles[] = entries.toArray();
-//                for( Object f : allFiles ) {
-//                    if( new File( f.toString() ).isFile())
-//                        System.out.println( f.toString() );
-//                }
-            System.out.println( "Count: " + i + " files");
-            }
-            catch( Throwable t ) {
-                //TODO
-            }
-            return( 0 );
+        // create a list of all the files in the directory and its subdirectories
+        Path path = FileSystems.getDefault().getPath(origPath);
+        ArrayList<Path> fileSet = new DirFileListMaker().go( path );
+        if( fileSet.isEmpty() ) {
+            System.err.println("Error: Directory " + origPath + " contains no files");
+            return( Status.FILE_ERROR );
         }
-    public void treadle( Path p ) {
-        i++;
+
+        System.out.println("Number of files found to check: " + fileSet.size());
+
+        // create the table for the checksums
+        chksumTable = TreeMultimap.create();
+
+        // calculate checksum for every file in fileSet and insert it into a hash table
+        for( Path aFilePath : fileSet ) {
+            updateChecksums( aFilePath );
+        }
+
+        System.out.println( "Number of files checked: " + chksumTable.size() );
+        NavigableSet<Long> keys = chksumTable.keySet();
+        for( Long key : keys ) {
+            NavigableSet<String> paths = chksumTable.get( key );
+            if( paths.size() > 1) {
+                duplicatesFound = true;
+                System.out.println( "These files are the same:");
+                for( String filepath : paths) {
+                    System.out.println( "\t" + filepath );
+                }
+                System.out.println();
+            }
+        }
+
+        if( ! duplicatesFound ) {
+            System.out.println( "No duplicate files found in or below " + origPath );
+        }
+
+        return( Status.OK );
+    }
+    
+    Path updateChecksums( Path p ) {
+        long chksum = new FileChecksum( p ).calculate();
+        chksumTable.put( chksum, p.toString() );
+        System.out.println( "checksum: " + chksum + " file: " + p );
+        return p;
     }
 }

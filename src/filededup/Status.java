@@ -15,7 +15,8 @@ package filededup;
  * @author alb
  */
 public class Status {
-    public static final int FILES_SAME = 0;
-    public static final int FILES_DIFFERENT = 1;
-    public static final int FILE_ERROR = -1;    
+    static final int FILES_SAME = 0;
+    static final int FILES_DIFFERENT = 1;
+    static final int FILE_ERROR = -1;
+    static final int OK = 0;
 }

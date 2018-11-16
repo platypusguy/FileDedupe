@@ -10,6 +10,7 @@
 package filededup;
 
 import java.io.*;
+import java.nio.file.Path;
 import java.util.zip.CheckedInputStream;
 import java.util.zip.CRC32;
 
@@ -18,36 +19,43 @@ import java.util.zip.CRC32;
  * @author alb
  */
 public class FileChecksum {
+
+    private String filename;
     
-    private BufferedInputStream bis;
-    private CheckedInputStream chis;
-    private long fLength;
+    private final int TEN_MB = 10_485_760;  // size of the buffer for CRC
     
-    private final int TEN_MB = 1_0485_760;  // size of the buffer for CRC
+    FileChecksum( File f ) {
+        filename = f.getPath();
+    }
     
-    public FileChecksum( File f ) {
-        try {
-            chis = 
-                new CheckedInputStream(new FileInputStream( f ), new CRC32());
-            bis = new BufferedInputStream( chis, TEN_MB );
-        }
-        catch( Throwable t ){
-            ;   //TODO: do something in case of error.
-        }
+    FileChecksum( Path p ) {
+        this( p.toFile());
     }
     
     /**
      * @return the checksum computed for the file; on error, an error code    
      */
-    public long calculate() {
+    long calculate() {
+        FileInputStream file = null;
         try {
-            for( long i=0L; i < fLength; i++ ) {
-                bis.read();
+            file = new FileInputStream(filename);
+        } catch( FileNotFoundException e ) {
+            e.printStackTrace(); //TODO
+        }
+
+        CheckedInputStream check =
+            new CheckedInputStream(file, new CRC32());
+        BufferedInputStream in =
+            new BufferedInputStream(check);
+        try {
+            while (in.read() != -1) {
+                // Read file in completely
             }
-            return( chis.getChecksum().getValue()); 
+            in.close();
+        } catch( IOException e ) {
+            e.printStackTrace(); //TODO
         }
-        catch( Throwable t ) {
-            return( Status.FILE_ERROR );
-        }
+
+        return(check.getChecksum().getValue());
     }
 }
