@@ -1,7 +1,7 @@
 /*
  * Project looks for duplicate files based on CRC-32 checksumming. 
  *
- * Copyright (c) 2015 by Andrew Binstock. All rights reserved.
+ * Copyright (c) 2015-19 by Andrew Binstock. All rights reserved.
  * Licensed under the Creative Commons Attribution, Share Alike license
  * (CC BY-SA). Consult: https://creativecommons.org/licenses/by-sa/4.0/
  *
