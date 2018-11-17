@@ -7,7 +7,7 @@
  *
  * This class computes the checksum for a given file.
  */
-package filededup;
+package org.pz.filededupe;
 
 import java.io.*;
 import java.nio.file.Path;

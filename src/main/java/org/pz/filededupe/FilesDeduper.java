@@ -6,7 +6,7 @@
  * Licensed under the Creative Commons Attribution, Share Alike license
  * (CC BY-SA). Consult: https://creativecommons.org/licenses/by-sa/4.0/
  */
-package filededup;
+package org.pz.filededupe;
 
 import java.io.File;
 /**
