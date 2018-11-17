@@ -1,6 +1,6 @@
 ## This project -- FileDedupe ##
 test-output/**
-out/**
+target/**
 lib/**
 tel
 _config.yml
