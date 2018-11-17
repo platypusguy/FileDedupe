@@ -3,6 +3,7 @@ test-output/**
 out/**
 lib/**
 tel
+_config.yml
 
 ##--- Generic stuff to ignore ---##
 # Java #
