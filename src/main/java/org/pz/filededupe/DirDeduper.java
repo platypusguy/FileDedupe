@@ -20,15 +20,24 @@ import com.google.common.collect.*;
 class DirDeduper {
     private File dir;
     private String origPath;
-//    private LinkedList<Long, Path> hashTable[] = new LinkedList[1021];
     private TreeMultimap<Long, String> chksumTable;
     private boolean duplicatesFound = false;
 
+
+    /**
+     * Constructor, requires only the directory path
+     * @param pathToDir  the directory path
+     */
     DirDeduper(String pathToDir) {
-        origPath = pathToDir;
+        origPath = Objects.requireNonNull( pathToDir );
         dir = new File( pathToDir );
     }
-    
+
+    /**
+     * Main method: validates directory, gets paths of all files (incl. subidrectories), 
+     *   creates and loads the table of checksums for the files, and then prints out duplicates.
+     * @return  Status.OK or Status.FILE_ERROR in event of error
+     */
     int go() {
 
         if( !dir.isDirectory() ) {
@@ -50,9 +59,7 @@ class DirDeduper {
         chksumTable = TreeMultimap.create();
 
         // calculate checksum for every file in fileSet and insert it into a hash table
-        for( Path aFilePath : fileSet ) {
-            updateChecksums( aFilePath );
-        }
+        fileSet.forEach( this::updateChecksums );
 
         System.out.println( "Number of files checked: " + chksumTable.size() );
         NavigableSet<Long> keys = chksumTable.keySet();
@@ -74,7 +81,12 @@ class DirDeduper {
 
         return( Status.OK );
     }
-    
+
+    /**
+     * Calculates the checksum for afile and puts in the chksumTable.
+     * @param p the filepath for the file to checksum
+     * @return  not clear this is needed.
+     */
     Path updateChecksums( Path p ) {
         long chksum = new FileChecksum( p ).calculate();
         chksumTable.put( chksum, p.toString() );
