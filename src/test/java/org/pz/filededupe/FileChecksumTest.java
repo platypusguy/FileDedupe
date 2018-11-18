@@ -10,8 +10,7 @@ package org.pz.filededupe;
 import org.junit.*;
 import org.junit.rules.TemporaryFolder;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 
 import static org.junit.Assert.*;
 
@@ -23,9 +22,13 @@ public class FileChecksumTest {
 
     private File file;
 
+    /* This folder and files created in it will be deleted after tests are
+     * run, even in the event of failures or exceptions.
+     */
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
-    
+
+    /* executed before every test */
     @Before
     public void setUp() {
         try {
@@ -36,18 +39,35 @@ public class FileChecksumTest {
         }
     }
 
+    /**
+     * Create an empty temp file and test that its checksum is zero
+     */
     @Test
     public void calculateOnEmptyFile() {
         FileChecksum fc = new FileChecksum( file );
         long result = fc.calculate();
-        assertEquals(0, result);
+        assertEquals(0L, result);
     }
 
-//    @Test
-//    public void calculateOnNonEmptyFile() {
-//        file.
-//        FileChecksum fc = new FileChecksum( file );
-//        long result = fc.calculate();
-//        assertEquals(0, result);
-//    }
+    /**
+     * Create a non-empty temp file and test that its checksum is non-zero
+     */
+    @Test
+    public void calculateOnNonEmptyFile() {
+
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            writer.write("alb");
+            writer.close();
+        } catch( IOException ioe ) {
+            System.err.println( "error writing to test file in FileChecksumTest" );
+            fail( "failed due to IOException writing to test file");
+        }
+
+        FileChecksum fc = new FileChecksum( file );
+        long result = fc.calculate();
+        assertNotEquals(0L, result);
+    }
+
+    
 }
