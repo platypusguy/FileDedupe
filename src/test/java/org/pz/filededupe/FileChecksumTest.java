@@ -35,7 +35,8 @@ public class FileChecksumTest {
             file = folder.newFile("testfile.txt");
         }
         catch( IOException ioe ) {
-            System.err.println( "unable to create test file in temporary folder in FileChecksumTest");
+            String className = this.getClass().getCanonicalName();
+            System.err.println( "error creating temporary test file in " + className );
         }
     }
 
@@ -60,7 +61,8 @@ public class FileChecksumTest {
             writer.write("alb");
             writer.close();
         } catch( IOException ioe ) {
-            System.err.println( "error writing to test file in FileChecksumTest" );
+            System.err.println( "error writing to test file in " +
+                                 this.getClass().getCanonicalName() );
             fail( "failed due to IOException writing to test file");
         }
 
