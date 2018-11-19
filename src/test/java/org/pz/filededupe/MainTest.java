@@ -15,6 +15,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Test variety of ways to call the program
@@ -32,13 +33,15 @@ public class MainTest {
         PrintStream ps = new PrintStream( os );
         System.setOut( ps );
 
-        // pass it empty args.
+        // pass in empty args.
         Main main = new Main();
         String emptyArgs[] = {};
         try {
             main.main(emptyArgs);
         }
-        catch( Throwable t ) {};
+        catch( Throwable t ) {
+            fail( t.getMessage() );
+        };
 
         String output = os.toString();
         assertTrue( output.startsWith("FileDedupe v."));
