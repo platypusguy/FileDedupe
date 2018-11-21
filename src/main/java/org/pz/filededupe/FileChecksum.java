@@ -15,14 +15,12 @@ import java.util.zip.CheckedInputStream;
 import java.util.zip.CRC32;
 
 /**
- * Reads a File and computes the checksum
+ * Reads a file and computes its checksum
  * @author alb
  */
 public class FileChecksum {
 
     private String filename;
-    
-    private final int TEN_MB = 10_485_760;  // size of the buffer for CRC
     
     FileChecksum( File f ) {
         filename = f.getPath();
@@ -33,27 +31,34 @@ public class FileChecksum {
     }
     
     /**
-     * @return the checksum computed for the file; on error, an error code    
+     * Does the actual checksum calculation. Note that the only I/O is to
+     * read the file all the way through.
+     *
+     * @return the checksum computed for the file; on error, an error code
+     * If an error occurs, the error message is printed to stderr here, so
+     * it need not be reported to the user later.
      */
     long calculate() {
         FileInputStream file = null;
+
         try {
             file = new FileInputStream(filename);
         } catch( FileNotFoundException e ) {
-            e.printStackTrace(); //TODO
+            System.err.println( "Error: File " + filename + " not found.");
+            return( Status.FILE_ERROR );
         }
 
-        CheckedInputStream check =
-            new CheckedInputStream(file, new CRC32());
-        BufferedInputStream in =
-            new BufferedInputStream(check);
+        CheckedInputStream check = new CheckedInputStream(file, new CRC32());
+        BufferedInputStream in =  new BufferedInputStream(check);
+
         try {
             while (in.read() != -1) {
                 // Read file in completely
             }
             in.close();
         } catch( IOException e ) {
-            e.printStackTrace(); //TODO
+            System.err.println( "Error reading file: " + filename);
+            return( Status.FILE_ERROR );
         }
 
         return(check.getChecksum().getValue());
