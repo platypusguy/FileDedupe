@@ -11,6 +11,7 @@ import org.junit.*;
 import org.junit.rules.TemporaryFolder;
 
 import java.io.*;
+import java.nio.file.Paths;
 
 import static org.junit.Assert.*;
 
@@ -22,8 +23,8 @@ public class FileChecksumTest {
 
     private File file;
 
-    /* This folder and files created in it will be deleted after tests are
-     * run, even in the event of failures or exceptions.
+    /* This folder and the files created in it will be deleted after
+     * tests are run, even in the event of failures or exceptions.
      */
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
@@ -38,6 +39,28 @@ public class FileChecksumTest {
             String className = this.getClass().getCanonicalName();
             System.err.println( "error creating temporary test file in " + className );
         }
+    }
+
+    /**
+     * Run the checksum on a non-existent file. Should write error message to stderr.
+     */
+    @Test
+    public void calculateOnNonExistentFile() {
+
+        PrintStream originalStderr = System.err;
+
+        // capture stdout
+        OutputStream os = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream( os );
+        System.setErr( ps );
+
+        FileChecksum fc = new FileChecksum( Paths.get( "nonexistentfile.txt" ));
+        long checksum = fc.calculate();
+        assertTrue( os.toString().startsWith( "Error: File nonexistentfile.txt not found" ));
+        assertEquals( Status.FILE_ERROR, checksum );
+
+        // restore stderr
+        System.setErr( originalStderr );
     }
 
     /**
