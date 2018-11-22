@@ -18,16 +18,20 @@ import java.util.stream.Collectors;
 /**
  * Accepts a path and walks the entire path (including subdirectories)
  * and creates a list of all files in the path.
+ *
+ * All exceptions are caught in this class and the user message is emitted here.
  * 
  * @author alb
  */
-public class DirFileListMaker
+class DirFileListMaker
 {
     ArrayList<Path> go( Path dir ) {
         if( dir == null || dir.toString().isEmpty() )
-            throw( new InvalidParameterException() );
+            throw( new InvalidParameterException(
+                "Error: Directory to process null or empty in " +
+                    this.getClass().getSimpleName()));
 
-        ArrayList<Path> fileSet = new ArrayList<Path>();
+        ArrayList<Path> fileSet;
         try {
             fileSet =
                 Files.walk(dir)
@@ -35,7 +39,8 @@ public class DirFileListMaker
                     .peek(System.out::println)
                     .collect(Collectors.toCollection(ArrayList::new));
         } catch( Throwable t ) {
-            System.out.println("Exception occurred in DirFileListMaker");
+            System.err.println("Exception creating fileset in " + this.getClass().getSimpleName());
+            return( new ArrayList<>(0) );
         }
         return( fileSet );
     }
