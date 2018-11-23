@@ -7,11 +7,11 @@
  */
 package org.pz.filededupe;
 
-import org.junit.*;
-import org.junit.rules.TemporaryFolder;
-
 import java.io.*;
 import java.nio.file.Paths;
+
+import org.junit.*;
+import org.junit.rules.TemporaryFolder;
 
 import static org.junit.Assert.*;
 
@@ -37,7 +37,7 @@ public class FileChecksumTest {
         }
         catch( IOException ioe ) {
             String className = this.getClass().getCanonicalName();
-            System.err.println( "error creating temporary test file in " + className );
+            System.err.println( "error creating temporary test file in " +  this.getClass().getSimpleName() );
         }
     }
 
