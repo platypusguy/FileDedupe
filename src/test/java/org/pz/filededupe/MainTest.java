@@ -49,4 +49,6 @@ public class MainTest {
         // restore stdout
         System.setOut( originalStdout );
     }
+
+    
 }

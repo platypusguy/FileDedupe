@@ -28,7 +28,7 @@ class DirFileListMaker
     ArrayList<Path> go( Path dir ) {
         if( dir == null || dir.toString().isEmpty() )
             throw( new InvalidParameterException(
-                "Error: Directory to process null or empty in " +
+                "Error: Directory to process is null or empty in " +
                     this.getClass().getSimpleName()));
 
         ArrayList<Path> fileSet;
