@@ -12,6 +12,7 @@ package org.pz.filededupe;
 import org.junit.*;
 import org.junit.rules.TemporaryFolder;
 
+import java.io.*;
 import java.nio.file.InvalidPathException;
 
 import static org.junit.Assert.*;
@@ -32,8 +33,39 @@ public class DirDeduperTest {
 
     @Test (expected = InvalidPathException.class)
     public void testNonDirectoryPath() {
-        DirDeduper dd = new DirDeduper( "");
+        DirDeduper dd = new DirDeduper( "" );
         fail("Expected an InvalidPathException to be thrown in " + this.getClass().getSimpleName());
+    }
+
+    /**
+     * An empty directory should generate a message on stdout and return false from go(), indicating
+     * that no duplicates were found. Both things are tested here.
+     */
+    @Test
+    public void testEmptyDirectory() {
+
+        PrintStream originalStdout = System.out;
+
+        // capture stdout
+        OutputStream os = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream( os );
+        System.setOut( ps );
+
+        // create empty subdirectory in temporary directory, and pass it to go()
+        File createdSubFolder = null;
+        try {
+            createdSubFolder = folder.newFolder("subfolder");
+        } catch( IOException ioe ) {
+            fail( "IOException in " + this.getClass().getSimpleName() );
+        }
+        DirDeduper dd = new DirDeduper( createdSubFolder.getPath() );
+        assertEquals( false, dd.go() );
+
+        String output = os.toString();
+        assertTrue( output.contains( "contains no files" ));
+
+        // restore stdout
+        System.setOut( originalStdout );
     }
 
 }
