@@ -49,7 +49,7 @@ class DirDeduper {
         Path path = FileSystems.getDefault().getPath(origPath);
         ArrayList<Path> fileSet = new DirFileListMaker().go( path );
         if( fileSet.isEmpty() ) {
-            System.err.println("Error: Directory " + origPath + " contains no files");
+            System.out.println("Directory " + origPath + " contains no files");
             return( false );
         }
 
