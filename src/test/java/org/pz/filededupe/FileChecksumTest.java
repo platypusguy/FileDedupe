@@ -93,6 +93,4 @@ public class FileChecksumTest {
         long result = fc.calculate();
         assertNotEquals(0L, result);
     }
-
-    
 }
