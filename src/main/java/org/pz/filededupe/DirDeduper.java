@@ -31,26 +31,26 @@ class DirDeduper {
     DirDeduper(String pathToDir) {
         origPath = Objects.requireNonNull( pathToDir );
         dir = new File( pathToDir );
+
+        if( !dir.isDirectory() ) {
+            throw( new InvalidPathException(
+                pathToDir, "Error: " + pathToDir + " is not a directory"));
+        }
     }
 
     /**
      * Main method: validates directory, gets paths of all files (incl. subidrectories), 
      *   creates and loads the table of checksums for the files, and then prints out duplicates.
-     * @return  Status.OK or Status.FILE_ERROR in event of error
+     * @return  boolean: duplicates found/not found
      */
-    int go() {
-
-        if( !dir.isDirectory() ) {
-            System.err.println("Error: " + origPath + " is not a directory");
-            return( Status.FILE_ERROR );
-        }
+    boolean go() {
 
         // create a list of all the files in the directory and its subdirectories
         Path path = FileSystems.getDefault().getPath(origPath);
         ArrayList<Path> fileSet = new DirFileListMaker().go( path );
         if( fileSet.isEmpty() ) {
             System.err.println("Error: Directory " + origPath + " contains no files");
-            return( Status.FILE_ERROR );
+            return( false );
         }
 
         System.out.println("Number of files found to check: " + fileSet.size());
@@ -79,7 +79,7 @@ class DirDeduper {
             System.out.println( "No duplicate files found in or below " + origPath );
         }
 
-        return( Status.OK );
+        return( duplicatesFound );
     }
 
     /**
