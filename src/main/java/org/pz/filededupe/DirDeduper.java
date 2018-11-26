@@ -18,7 +18,7 @@ import com.google.common.collect.*;
  * @author alb (Andrew Binstock)
  */
 class DirDeduper {
-    private File dir;
+
     private String origPath;
     private TreeMultimap<Long, String> chksumTable;
     private boolean duplicatesFound = false;
@@ -30,7 +30,7 @@ class DirDeduper {
      */
     DirDeduper(String pathToDir) {
         origPath = Objects.requireNonNull( pathToDir );
-        dir = new File( pathToDir );
+        File dir = new File( pathToDir );
 
         if( !dir.isDirectory() ) {
             throw( new InvalidPathException(
