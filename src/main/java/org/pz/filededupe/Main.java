@@ -43,7 +43,7 @@ public class Main {
             new FilesDeduper( args ).go();
         }
         else {
-            System.out.println( "Invalid command. This might help:" );
+            System.out.println( "Invalid command. This might help: " );
             showUsage();
         }
     }
