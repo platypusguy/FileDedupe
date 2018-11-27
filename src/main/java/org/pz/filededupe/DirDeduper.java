@@ -83,7 +83,7 @@ class DirDeduper {
     }
 
     /**
-     * Calculates the checksum for afile and puts in the chksumTable.
+     * Calculates the checksum for a file and puts in the chksumTable.
      * @param p the filepath for the file to checksum
      * @return  not clear this is needed.
      */
