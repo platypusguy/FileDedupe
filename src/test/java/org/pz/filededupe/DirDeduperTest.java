@@ -59,10 +59,73 @@ public class DirDeduperTest {
             fail( "IOException in " + this.getClass().getSimpleName() );
         }
         DirDeduper dd = new DirDeduper( createdSubFolder.getPath() );
-        assertEquals( false, dd.go() );
+        assertFalse( dd.go() );
 
         String output = os.toString();
         assertTrue( output.contains( "contains no files" ));
+
+        // restore stdout
+        System.setOut( originalStdout );
+    }
+
+    /**
+     * A directory with 1 file should print to stdout that 1 file was found and return false, that is,
+     * that there were no duplicates found. This tests both things.
+     */
+    @Test
+    public void testDirectoryWith1File() {
+
+        PrintStream originalStdout = System.out;
+
+        // capture stdout
+        OutputStream os = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream( os );
+        System.setOut( ps );
+
+        try {
+            folder.newFile("singlefile");
+        } catch( IOException ioe ) {
+            fail( "IOException in " + this.getClass().getSimpleName() );
+        }
+
+        DirDeduper dd = new DirDeduper( folder.getRoot().getPath() );
+        assertFalse( dd.go() );
+
+        String output = os.toString();
+        assertTrue( output.contains( "Number of files found to check: 1" ));
+
+        // restore stdout
+        System.setOut( originalStdout );
+    }
+
+    /**
+     * A directory with 2 zero-length files should print to stdout that 2 files were found and
+     * return true, that is, that the files were duplicates. This tests both things.
+     */
+    @Test
+    public void testDirectoryWith2ZeroLengthFiles() {
+        PrintStream originalStdout = System.out;
+
+        // capture stdout
+        OutputStream os = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream( os );
+        System.setOut( ps );
+
+        try {
+            folder.newFile("zeroLengthFile1");
+            folder.newFile("zeroLengthFile2");
+        } catch( IOException ioe ) {
+            fail( "IOException in " + this.getClass().getSimpleName() );
+        }
+
+        DirDeduper dd = new DirDeduper( folder.getRoot().getPath() );
+        assertTrue( dd.go() );
+
+        String output = os.toString();
+        assertTrue( output.contains( "Number of files found to check: 2" ));
+        assertTrue( output.contains( "These files are the same:" ));
+        assertTrue( output.contains( "zeroLengthFile1" ));
+        assertTrue( output.contains( "zeroLengthFile2" ));
 
         // restore stdout
         System.setOut( originalStdout );
