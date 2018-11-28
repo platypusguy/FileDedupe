@@ -78,7 +78,7 @@ public class MainTest {
     }
 
     @Test
-    public void mainPrintsUsageIfTooManyArgsPassedToMain()
+    public void mainPrintsErrorMsgIfTooManyArgsPassedToMain()
     {
         PrintStream originalStdout = System.out;
 
@@ -98,7 +98,7 @@ public class MainTest {
         };
 
         String output = os.toString();
-        assertTrue( output.contains( "finds duplicate files"));
+        assertTrue( output.contains( "Invalid command." ));
 
         // restore stdout
         System.setOut( originalStdout );
