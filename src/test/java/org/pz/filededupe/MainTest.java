@@ -76,4 +76,31 @@ public class MainTest {
         // restore stdout
         System.setOut( originalStdout );
     }
+
+    @Test
+    public void mainPrintsUsageIfTooManyArgsPassedToMain()
+    {
+        PrintStream originalStdout = System.out;
+
+        // capture stdout
+        OutputStream os = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream( os );
+        System.setOut( ps );
+
+        // pass in empty args.
+        Main main = new Main();
+        String manyArgs[] = { "aaa", "bbb", "ccc", "ddd", "eee", "fff", "ggg" };
+        try {
+            main.main(manyArgs);
+        }
+        catch( Throwable t ) {
+            fail( t.getMessage() );
+        };
+
+        String output = os.toString();
+        assertTrue( output.contains( "finds duplicate files"));
+
+        // restore stdout
+        System.setOut( originalStdout );
+    }
 }
