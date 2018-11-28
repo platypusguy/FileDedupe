@@ -50,5 +50,30 @@ public class MainTest {
         System.setOut( originalStdout );
     }
 
-    
+    @Test
+    public void mainPrintsUsageIfhPassedToMain()
+    {
+        PrintStream originalStdout = System.out;
+
+        // capture stdout
+        OutputStream os = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream( os );
+        System.setOut( ps );
+
+        // pass in empty args.
+        Main main = new Main();
+        String helpArg[] = { "-h" };
+        try {
+            main.main(helpArg);
+        }
+        catch( Throwable t ) {
+            fail( t.getMessage() );
+        };
+
+        String output = os.toString();
+        assertTrue( output.contains( "finds duplicate files"));
+
+        // restore stdout
+        System.setOut( originalStdout );
+    }
 }
