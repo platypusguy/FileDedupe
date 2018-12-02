@@ -9,6 +9,9 @@
 package org.pz.filededupe;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.Objects;
+
 /**
  * Convert command-line args, which are the file names, to Files
  * and then call the file-comparison routine, and output the result 
@@ -21,7 +24,7 @@ public class FilesDeduper {
     private String[] fileNames;
     
     public FilesDeduper( String[] args ) {
-        fileNames = args;
+        fileNames = Objects.requireNonNull( args );
     }
     
     public void go() {
