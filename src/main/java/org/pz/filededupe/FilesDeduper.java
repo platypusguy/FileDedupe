@@ -28,7 +28,7 @@ public class FilesDeduper {
     }
     
     public void go() {
-        if( fileNames != null & fileNames.length == 2 ) {
+        if( fileNames.length == 2 ) {
             File f1 = new File( fileNames[0] );
             File f2 = new File( fileNames[1] );
             
