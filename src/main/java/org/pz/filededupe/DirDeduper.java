@@ -22,6 +22,16 @@ class DirDeduper {
     private String origPath;
     private TreeMultimap<Long, String> chksumTable;
     private boolean duplicatesFound = false;
+    private boolean subdirs;
+
+    /**
+     * Constructor, requires path and flag to include/exclude subdirectories
+     *
+     */
+    DirDeduper(String pathToDir, boolean subdirFlag) {
+        origPath = Objects.requireNonNull( pathToDir );
+        subdirs = subdirFlag;
+    }   //TODO: use this constructor for this class.
 
 
     /**
