@@ -11,7 +11,7 @@ package org.pz.filededupe;
 import java.util.*;
 
 /**
- * @author alb (Andrew Binstock)
+ * @author alb (Andrew Binstock @platypusguy)
  */
 public class Main {
 
@@ -21,8 +21,10 @@ public class Main {
      *    * -nosubdirs which says don't check subdirectories
      *    * -help/-h which prints usage instructions
      */
-    public static void main( final String[] args ) 
+    public static void main( final String[] args )
     {
+        boolean nosubdirs = false;
+
         printCopyright();
         
         if( args.length == 0 ) {
@@ -30,43 +32,42 @@ public class Main {
             return;
         }
 
+        List<String> argList = Arrays.asList(args);
+        if( argList.contains( "-h") || argList.contains( "-help")) {
+            showUsage();
+            return;
+        }
+
         LinkedList<String> dirs = new LinkedList<>();
-        int i;
-        for( i = 0; i < args.length; i++ ) {
-            if( args[i].startsWith( "-" ))
-                break;
+        for( String arg : args ) {
+            if( !arg.startsWith("-") ) {
+                dirs.add( arg );
+            }
             else {
-                dirs.add( args[i]);
+                if( arg.equalsIgnoreCase( "-nosubdirs" )) {
+                    nosubdirs = true;
+                }
+                else {
+                    System.err.println( "Invalid command: " + arg );
+                }
             }
         }
 
-        if( args[i].equalsIgnoreCase("-h") ||
-            args[i].equalsIgnoreCase( "-help")) {
-            showUsage();
-            return;
-        }
-
-        boolean nosubdirs = false;
-        if( args[i].equalsIgnoreCase( "-nosubdirs" )) {
-            nosubdirs = true;
-        }
-        else{
-            System.err.println("Invalid command: " + args[i]);
-            System.err.println("This might help:");
-            showUsage();
-            return;
-        }
-
+        // Call the dupe-checking routines on each specified directory
         if( dirs.size() > 0 ) {
             for( String dir : dirs )
                 new DirDeduper(dir, nosubdirs).go();
         }
+        else {  //happens if only a dash option other than -h is specified
+            System.err.println( "Error: no directory specified. Exiting");
+        }
     }
+
 
     private static void printCopyright()
     {
         System.out.println(
-            "FileDedupe v.0.3 (c) Copyright 2017-20, Andrew Binstock. All rights reserved.\n" );
+            "FileDedupe v.0.3 (c) Copyright 2017-20 Andrew Binstock. All rights reserved.\n" );
     }
 
     private static void showUsage() {

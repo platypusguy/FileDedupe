@@ -1,8 +1,8 @@
 /*
  * Looks for duplicate files based on CRC-32 checksumming.
- * Project requires JDK 8 or later.
+ * Project requires JDK 11 or later.
  *
- * Copyright (c) 2015-19 by Andrew Binstock. All rights reserved.
+ * Copyright (c) 2017-20 by Andrew Binstock. All rights reserved.
  * Licensed under the Creative Commons Attribution, Share Alike license
  * (CC BY-SA). Consult: https://creativecommons.org/licenses/by-sa/4.0/
  */
@@ -14,8 +14,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 /**
  * Test variety of ways to call the program
@@ -24,7 +23,7 @@ import static org.junit.Assert.fail;
 public class MainTest {
 
     @Test
-    public void mainPrintsCopyrightWhenNoArgsArePassedToMain()
+    public void mainPrintsCopyrightAndUsageWhenNoArgsArePassedToMain()
     {
         PrintStream originalStdout = System.out;
 
@@ -35,16 +34,17 @@ public class MainTest {
 
         // pass in empty args.
         Main main = new Main();
-        String emptyArgs[] = {};
+        String[] emptyArgs = {};
         try {
             main.main(emptyArgs);
         }
         catch( Throwable t ) {
             fail( t.getMessage() );
-        };
+        }
 
         String output = os.toString();
-        assertTrue( output.startsWith("FileDedupe v."));
+        assertTrue( output.startsWith( "FileDedupe v." ));
+        assertTrue( output.contains( "FileDedupe finds duplicate" ));
 
         // restore stdout
         System.setOut( originalStdout );
@@ -62,45 +62,47 @@ public class MainTest {
 
         // pass in empty args.
         Main main = new Main();
-        String helpArg[] = { "-h" };
+        String[] helpArg = { "-h" };
         try {
             main.main(helpArg);
         }
         catch( Throwable t ) {
             fail( t.getMessage() );
-        };
+        }
 
         String output = os.toString();
-        assertTrue( output.contains( "finds duplicate files"));
+        assertTrue( output.contains( "finds duplicate files" ));
 
         // restore stdout
         System.setOut( originalStdout );
     }
 
     @Test
-    public void mainPrintsErrorMsgIfTooManyArgsPassedToMain()
+    public void mainPrintsErrorMsgIfInvalidArgPassedToMain()
     {
         PrintStream originalStdout = System.out;
 
         // capture stdout
         OutputStream os = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream( os );
-        System.setOut( ps );
+        System.setErr( ps );
 
-        // pass in empty args.
+        // pass in invalid dirs.
         Main main = new Main();
-        String manyArgs[] = { "aaa", "bbb", "ccc", "ddd", "eee", "fff", "ggg" };
+
         try {
-            main.main(manyArgs);
+            String[] invalidDirs = { "-invalidArg" };
+            main.main( invalidDirs );
         }
         catch( Throwable t ) {
             fail( t.getMessage() );
-        };
+        }
 
         String output = os.toString();
-        assertTrue( output.contains( "Invalid command." ));
+        assertTrue( output.startsWith( "Invalid command:" ));
 
         // restore stdout
         System.setOut( originalStdout );
     }
+        //TODO: Write test for only a dash option other than -h being passed
 }
