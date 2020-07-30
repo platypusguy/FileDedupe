@@ -1,8 +1,8 @@
 /*
  * Looks for duplicate files based on CRC-32 checksumming. 
- * Project requires JDK 8 or later.
+ * Project requires JDK 11 or later.
  *
- * Copyright (c) 2015-19 by Andrew Binstock. All rights reserved.
+ * Copyright (c) 2017-20 by Andrew Binstock. All rights reserved.
  * Licensed under the Creative Commons Attribution, Share Alike license
  * (CC BY-SA). Consult: https://creativecommons.org/licenses/by-sa/4.0/
  */
@@ -19,10 +19,10 @@ import com.google.common.collect.*;
  */
 class DirDeduper {
 
-    private String origPath;
+    private final String origPath;
+    private final boolean subdirs;
     private TreeMultimap<Long, String> chksumTable;
     private boolean duplicatesFound = false;
-    private boolean subdirs;
 
     /**
      * Constructor, requires path and flag to include/exclude subdirectories
@@ -31,17 +31,8 @@ class DirDeduper {
     DirDeduper(String pathToDir, boolean subdirFlag) {
         origPath = Objects.requireNonNull( pathToDir );
         subdirs = subdirFlag;
-    }   //TODO: use this constructor for this class.
 
-
-    /**
-     * Constructor, requires only the directory path
-     * @param pathToDir  the directory path
-     */
-    DirDeduper(String pathToDir) {
-        origPath = Objects.requireNonNull( pathToDir );
         File dir = new File( pathToDir );
-
         if( !dir.isDirectory() ) {
             throw( new InvalidPathException(
                 pathToDir, "Error: " + pathToDir + " is not a directory"));

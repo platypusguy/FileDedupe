@@ -1,8 +1,8 @@
 /*
  * Looks for duplicate files based on CRC-32 checksumming.
- * Project requires JDK 8 or later.
+ * Project requires JDK 11 or later.
  *
- * Copyright (c) 2015-19 by Andrew Binstock. All rights reserved.
+ * Copyright (c) 2017-20 by Andrew Binstock. All rights reserved.
  * Licensed under the Creative Commons Attribution, Share Alike license
  * (CC BY-SA). Consult: https://creativecommons.org/licenses/by-sa/4.0/
  */
@@ -27,14 +27,16 @@ public class DirDeduperTest {
 
     @Test (expected = NullPointerException.class)
     public void testNullPathToDir() {
-        DirDeduper dd = new DirDeduper( null );
-        fail("Expected an NullPointerException to be thrown in " + this.getClass().getSimpleName());
+        new DirDeduper( null, false );
+        fail("Expected an NullPointerException to be thrown in " +
+            this.getClass().getSimpleName());
     }
 
     @Test (expected = InvalidPathException.class)
     public void testNonDirectoryPath() {
-        DirDeduper dd = new DirDeduper( "" );
-        fail("Expected an InvalidPathException to be thrown in " + this.getClass().getSimpleName());
+        new DirDeduper( "", false );
+        fail("Expected an InvalidPathException to be thrown in " +
+            this.getClass().getSimpleName());
     }
 
     /**
@@ -58,7 +60,7 @@ public class DirDeduperTest {
         } catch( IOException ioe ) {
             fail( "IOException in " + this.getClass().getSimpleName() );
         }
-        DirDeduper dd = new DirDeduper( createdSubFolder.getPath() );
+        DirDeduper dd = new DirDeduper( createdSubFolder.getPath(), true );
         assertFalse( dd.go() );
 
         String output = os.toString();
@@ -88,7 +90,7 @@ public class DirDeduperTest {
             fail( "IOException in " + this.getClass().getSimpleName() );
         }
 
-        DirDeduper dd = new DirDeduper( folder.getRoot().getPath() );
+        DirDeduper dd = new DirDeduper( folder.getRoot().getPath(), true );
         assertFalse( dd.go() );
 
         String output = os.toString();
@@ -118,7 +120,7 @@ public class DirDeduperTest {
             fail( "IOException in " + this.getClass().getSimpleName() );
         }
 
-        DirDeduper dd = new DirDeduper( folder.getRoot().getPath() );
+        DirDeduper dd = new DirDeduper( folder.getRoot().getPath(), true );
         assertTrue( dd.go() );
 
         String output = os.toString();
