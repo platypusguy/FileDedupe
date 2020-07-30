@@ -53,12 +53,12 @@ public class Main {
             }
         }
 
-        // Call the dupe-checking routines on each specified directory
+        // Call the dupe-file checking routines on each specified directory
         if( dirs.size() > 0 ) {
             for( String dir : dirs )
                 new DirDeduper(dir, nosubdirs).go();
         }
-        else {  //happens if only a dash option other than -h is specified
+        else {  //happens only if a single dash option other than -h is specified
             System.err.println( "Error: no directory specified. Exiting");
         }
     }
