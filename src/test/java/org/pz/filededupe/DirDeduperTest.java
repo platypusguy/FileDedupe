@@ -27,14 +27,14 @@ public class DirDeduperTest {
 
     @Test (expected = NullPointerException.class)
     public void testNullPathToDir() {
-        new DirDeduper( null, false );
+        new DirDeduper( null, false, new DupeTable() );
         fail("Expected an NullPointerException to be thrown in " +
             this.getClass().getSimpleName());
     }
 
     @Test (expected = InvalidPathException.class)
     public void testNonDirectoryPath() {
-        new DirDeduper( "", false );
+        new DirDeduper( "", false, new DupeTable() );
         fail("Expected an InvalidPathException to be thrown in " +
             this.getClass().getSimpleName());
     }
@@ -60,7 +60,7 @@ public class DirDeduperTest {
         } catch( IOException ioe ) {
             fail( "IOException in " + this.getClass().getSimpleName() );
         }
-        DirDeduper dd = new DirDeduper( createdSubFolder.getPath(), true );
+        DirDeduper dd = new DirDeduper( createdSubFolder.getPath(), true, new DupeTable() );
         assertFalse( dd.go() );
 
         String output = os.toString();
@@ -90,7 +90,7 @@ public class DirDeduperTest {
             fail( "IOException in " + this.getClass().getSimpleName() );
         }
 
-        DirDeduper dd = new DirDeduper( folder.getRoot().getPath(), true );
+        DirDeduper dd = new DirDeduper( folder.getRoot().getPath(), true, new DupeTable() );
         assertFalse( dd.go() );
 
         String output = os.toString();
@@ -120,7 +120,7 @@ public class DirDeduperTest {
             fail( "IOException in " + this.getClass().getSimpleName() );
         }
 
-        DirDeduper dd = new DirDeduper( folder.getRoot().getPath(), true );
+        DirDeduper dd = new DirDeduper( folder.getRoot().getPath(), true,new DupeTable() );
         assertTrue( dd.go() );
 
         String output = os.toString();

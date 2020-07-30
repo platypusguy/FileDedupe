@@ -21,21 +21,22 @@ class DirDeduper {
 
     private final String origPath;
     private final boolean subdirs;
-    private TreeMultimap<Long, String> chksumTable;
+    private DupeTable chksumTable;
     private boolean duplicatesFound = false;
 
     /**
      * @param pathToDir directory to scan
      * @param subdirFlag scan the subdirectories as well?
      */
-    DirDeduper(String pathToDir, boolean subdirFlag) {
+    DirDeduper( String pathToDir, boolean subdirFlag, DupeTable table ) {
         origPath = Objects.requireNonNull( pathToDir );
         subdirs = subdirFlag;
+        chksumTable = table;
 
         File dir = new File( pathToDir );
         if( !dir.isDirectory() ) {
             throw( new InvalidPathException(
-                pathToDir, "Error: " + pathToDir + " is not a directory"));
+                pathToDir, "Error: " + pathToDir + " is not a directory" ));
         }
     }
 
@@ -56,16 +57,21 @@ class DirDeduper {
 
         System.out.println("Number of files found to check: " + fileSet.size());
 
-        // create the table for the checksums
-        chksumTable = TreeMultimap.create();
+//        // create the table for the checksums
+//        chksumTable = TreeMultimap.create();
 
         // calculate checksum for every file in fileSet and insert it into a hash table
         fileSet.forEach( this::updateChecksums );
 
-        System.out.println( "Number of files checked: " + chksumTable.size() );
-        NavigableSet<Long> keys = chksumTable.keySet();
+//        System.out.println( "Number of files checked: " + chksumTable.size() );
+        System.out.println( "Number of files checked: " + chksumTable.getSize() );
+
+//        NavigableSet<Long> keys = chksumTable.keySet();
+        NavigableSet<Long> keys = chksumTable.getKeySet();
+
         for( Long key : keys ) {
-            NavigableSet<String> paths = chksumTable.get( key );
+//            NavigableSet<String> paths = chksumTable.get( key );
+            NavigableSet<String> paths = chksumTable.getEntry( key );
             if( paths.size() > 1) {
                 duplicatesFound = true;
                 System.out.println( "These files are the same:");
@@ -90,7 +96,8 @@ class DirDeduper {
      */
     Path updateChecksums( Path p ) {
         long chksum = new FileChecksum( p ).calculate();
-        chksumTable.put( chksum, p.toString() );
+//        chksumTable.put( chksum, p.toString() );
+        chksumTable.insertFile( p.toString(), chksum );
         System.out.println( "checksum: " + chksum + " file: " + p );
         return p;
     }
