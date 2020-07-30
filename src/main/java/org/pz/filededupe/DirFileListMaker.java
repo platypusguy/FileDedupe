@@ -36,10 +36,10 @@ class DirFileListMaker
             //Files.walk's second param gives depth of subdirs to search
             // Integer.MAX_VALUE means, search all subdirectories
             fileSet =
-                Files.walk(dir, scanSubDirs? Integer.MAX_VALUE : 0 )
-                    .filter(p -> p.toFile().isFile())
+                Files.walk( dir, scanSubDirs? 0 :Integer.MAX_VALUE )
+                    .filter( p -> p.toFile().isFile() )
                     .peek(System.out::println)
-                    .collect(Collectors.toCollection(ArrayList::new));
+                    .collect( Collectors.toCollection( ArrayList::new ));
         } catch( Throwable t ) {
             System.err.println("Exception creating fileset in " +
                                      this.getClass().getSimpleName());

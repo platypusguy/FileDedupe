@@ -23,6 +23,7 @@ public class Main {
      */
     public static void main( final String[] args )
     {
+        // default is to visit subdirectories
         boolean nosubdirs = false;
 
         printCopyright();
@@ -53,10 +54,13 @@ public class Main {
             }
         }
 
+        // Create the dupe table, where file checksums are stored
+        DupeTable dupeTable = new DupeTable();
+
         // Call the dupe-file checking routines on each specified directory
         if( dirs.size() > 0 ) {
             for( String dir : dirs )
-                new DirDeduper(dir, nosubdirs).go();
+                new DirDeduper(dir, nosubdirs, dupeTable).go();
         }
         else {  //happens only if a single dash option other than -h is specified
             System.err.println( "Error: no directory specified. Exiting");
