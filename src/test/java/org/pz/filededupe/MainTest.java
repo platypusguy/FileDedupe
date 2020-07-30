@@ -104,5 +104,32 @@ public class MainTest {
         // restore stdout
         System.setOut( originalStdout );
     }
-        //TODO: Write test for only a dash option other than -h being passed
+
+    @Test
+    public void mainPrintsErrorMsgIfSingleDashOptionPassedInOtherThan_h()
+    {
+        PrintStream originalStdout = System.out;
+
+        // capture stdout
+        OutputStream os = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream( os );
+        System.setErr( ps );
+
+        // pass in invalid dirs.
+        Main main = new Main();
+
+        try {
+            String[] invalidDirs = { "-nosubdirs" };
+            main.main( invalidDirs );
+        }
+        catch( Throwable t ) {
+            fail( t.getMessage() );
+        }
+
+        String output = os.toString();
+        assertTrue( output.contains( "no directory specified" ));
+
+        // restore stdout
+        System.setOut( originalStdout );
+    }
 }
