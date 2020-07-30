@@ -32,14 +32,14 @@ public class DirFileListMakerTest {
 
     @Test (expected = InvalidParameterException.class)
     public void testNullPath() {
-        dflm.go( null );
+        dflm.go( null, true );
         fail("Expected an InvalidParameterException to be thrown");
     }
 
     @Test (expected = InvalidParameterException.class)
     public void testEmptyPath() {
         Path p = new File("").toPath();
-        dflm.go( p );
+        dflm.go( p, true );
         fail("Expected an InvalidParameterException to be thrown");
     }
 
@@ -56,7 +56,7 @@ public class DirFileListMakerTest {
             System.err.println( "error creating temporary test file in " + this.getClass().getSimpleName() );
         }
 
-        ArrayList<Path> fileset = dflm.go( folder.getRoot().toPath() );
+        ArrayList<Path> fileset = dflm.go( folder.getRoot().toPath(), true );
         assertEquals(1, fileset.size());
     }
 }

@@ -25,8 +25,8 @@ class DirDeduper {
     private boolean duplicatesFound = false;
 
     /**
-     * Constructor, requires path and flag to include/exclude subdirectories
-     *
+     * @param pathToDir directory to scan
+     * @param subdirFlag scan the subdirectories as well?
      */
     DirDeduper(String pathToDir, boolean subdirFlag) {
         origPath = Objects.requireNonNull( pathToDir );
@@ -47,8 +47,8 @@ class DirDeduper {
     boolean go() {
 
         // create a list of all the files in the directory and its subdirectories
-        Path path = FileSystems.getDefault().getPath(origPath);
-        ArrayList<Path> fileSet = new DirFileListMaker().go( path );
+        Path path = FileSystems.getDefault().getPath( origPath );
+        ArrayList<Path> fileSet = new DirFileListMaker().go( path, subdirs );
         if( fileSet.isEmpty() ) {
             System.out.println("Directory " + origPath + " contains no files");
             return( false );

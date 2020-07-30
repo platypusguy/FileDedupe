@@ -1,8 +1,8 @@
 /*
  * Looks for duplicate files based on CRC-32 checksumming.
- * Project requires JDK 8 or later.
+ * Project requires JDK 11 or later.
  *
- * Copyright (c) 2015 by Andrew Binstock. All rights reserved.
+ * Copyright (c) 2017-20 by Andrew Binstock. All rights reserved.
  * Licensed under the Creative Commons Attribution, Share Alike license
  * (CC BY-SA). Consult: https://creativecommons.org/licenses/by-sa/4.0/
  */
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  */
 class DirFileListMaker
 {
-    ArrayList<Path> go( Path dir ) {
+    ArrayList<Path> go( Path dir, boolean scanSubDirs ) {
         if( dir == null || dir.toString().isEmpty() )
             throw( new InvalidParameterException(
                 "Error: Directory to process is null or empty in " +
@@ -33,13 +33,17 @@ class DirFileListMaker
 
         ArrayList<Path> fileSet;
         try {
+            //Files.walk's second param gives depth of subdirs to search
+            // Integer.MAX_VALUE means, search all subdirectories
             fileSet =
-                Files.walk(dir)
+                Files.walk(dir, scanSubDirs? Integer.MAX_VALUE : 0 )
                     .filter(p -> p.toFile().isFile())
                     .peek(System.out::println)
                     .collect(Collectors.toCollection(ArrayList::new));
         } catch( Throwable t ) {
-            System.err.println("Exception creating fileset in " + this.getClass().getSimpleName());
+            System.err.println("Exception creating fileset in " +
+                                     this.getClass().getSimpleName());
+            //return an empty ArrayList in case of error
             return( new ArrayList<>(0) );
         }
         return( fileSet );
