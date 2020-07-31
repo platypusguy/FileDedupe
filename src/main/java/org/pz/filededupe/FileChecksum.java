@@ -21,8 +21,7 @@ import java.util.zip.CRC32;
 public class FileChecksum {
 
     private String filename;
-    final static Integer FILE_ERROR = 1;
-    
+
     FileChecksum( File f ) {
         filename = f.getPath();
     }
@@ -39,27 +38,27 @@ public class FileChecksum {
      * If an error occurs, the error message is printed to stderr here, so
      * it need not be reported to the user later.
      */
-    long calculate() {
+    long calculate() throws IOException {
         FileInputStream file;
 
         try {
             file = new FileInputStream(filename);
         } catch( FileNotFoundException e ) {
             System.err.println( "Error: File " + filename + " not found.");
-            return( FILE_ERROR );    //TODO: rethrow the exception rather than return err
+            throw( new IOException( e.toString() ));
         }
 
-        CheckedInputStream check = new CheckedInputStream(file, new CRC32());
-        BufferedInputStream in =  new BufferedInputStream(check);
+        CheckedInputStream check = new CheckedInputStream( file, new CRC32() );
+        BufferedInputStream in = new BufferedInputStream( check );
 
         try {
-            while (in.read() != -1) {
+            while( in.read() != -1 ) {
                 // Read file in completely
             }
             in.close();
         } catch( IOException e ) {
-            System.err.println( "Error reading file: " + filename);
-            return( FILE_ERROR );  //TODO: rethrow the exception rather than return err
+            System.err.println( "Error reading file: " + filename );
+            throw( new IOException( e.toString() ));
         }
 
         return(check.getChecksum().getValue());

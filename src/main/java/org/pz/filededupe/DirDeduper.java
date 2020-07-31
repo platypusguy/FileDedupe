@@ -1,6 +1,5 @@
 /*
  * Looks for duplicate files based on CRC-32 checksumming. 
- * Project requires JDK 11 or later.
  *
  * Copyright (c) 2017-20 by Andrew Binstock. All rights reserved.
  * Licensed under the Creative Commons Attribution, Share Alike license
@@ -9,9 +8,9 @@
 package org.pz.filededupe;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
-import com.google.common.collect.*;
 
 /**
  * De-duplicates a directory
@@ -19,28 +18,10 @@ import com.google.common.collect.*;
  */
 class DirDeduper {
 
-    private String origPath;
-    private boolean subdirs;
     private DupeTable chksumTable;
     private boolean duplicatesFound = false;
 
-//    /**
-//     * @param pathToDir directory to scan
-//     * @param subdirFlag scan the subdirectories as well?
-//     */
-    public DirDeduper() {};
-//
-//    DirDeduper(  ) {
-//        origPath = Objects.requireNonNull( pathToDir );
-//        subdirs = subdirFlag;
-//        chksumTable = table;
-//
-//        File dir = new File( pathToDir );
-//        if( !dir.isDirectory() ) {
-//            throw( new InvalidPathException(
-//                pathToDir, "Error: " + pathToDir + " is not a directory" ));
-//        }
-//    }
+    public DirDeduper() {}
 
     /**
      * Main method: validates directory, gets paths of all files (incl. subidrectories), 
@@ -49,10 +30,9 @@ class DirDeduper {
      * @param subdirFlag scan the subdirectories as well?
      * @return  boolean: duplicates found/not found
      */
-    boolean go( String pathToDir, boolean subdirFlag, DupeTable table) {
+    public boolean go( String pathToDir, boolean subdirFlag, DupeTable table) {
 
-        origPath = Objects.requireNonNull( pathToDir );
-        subdirs = subdirFlag;
+        String origPath = Objects.requireNonNull( pathToDir );
         chksumTable = table;
 
         File dir = new File( pathToDir );
@@ -63,7 +43,7 @@ class DirDeduper {
 
         // create a list of all the files in the directory and its subdirectories
         Path path = FileSystems.getDefault().getPath( origPath );
-        ArrayList<Path> fileSet = new DirFileListMaker().go( path, subdirs );
+        ArrayList<Path> fileSet = new DirFileListMaker().go( path, subdirFlag );
         if( fileSet.isEmpty() ) {
             System.out.println("Directory " + origPath + " contains no files");
             return( false );
@@ -73,8 +53,6 @@ class DirDeduper {
 
         // calculate checksum for every file in fileSet and insert it into a hash table
         fileSet.forEach( this::updateChecksums );
-
-        System.out.println( "Number of files checked: " + chksumTable.getSize() );
 
         NavigableSet<Long> keys = chksumTable.getKeySet();
 
@@ -100,12 +78,14 @@ class DirDeduper {
     /**
      * Calculates the checksum for a file and puts in the chksumTable.
      * @param p the filepath for the file to checksum
-     * @return  not clear this is needed.
      */
-    Path updateChecksums( Path p ) {
-        long chksum = new FileChecksum( p ).calculate();
-        chksumTable.insertFile( p.toString(), chksum );
-        System.out.println( "checksum: " + chksum + " file: " + p );
-        return p;
+    void updateChecksums( Path p ) {
+        try {
+            long chksum = new FileChecksum(p).calculate();
+            chksumTable.insertFile( p.toString(), chksum );
+            System.out.println( "checksum: " + chksum + " file: " + p );
+        } catch( IOException e ) {
+            // error message has already been displayed, so skip this file
+        }
     }
 }
