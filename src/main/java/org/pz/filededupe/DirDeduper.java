@@ -19,16 +19,38 @@ import com.google.common.collect.*;
  */
 class DirDeduper {
 
-    private final String origPath;
-    private final boolean subdirs;
+    private String origPath;
+    private boolean subdirs;
     private DupeTable chksumTable;
     private boolean duplicatesFound = false;
 
+//    /**
+//     * @param pathToDir directory to scan
+//     * @param subdirFlag scan the subdirectories as well?
+//     */
+    public DirDeduper() {};
+//
+//    DirDeduper(  ) {
+//        origPath = Objects.requireNonNull( pathToDir );
+//        subdirs = subdirFlag;
+//        chksumTable = table;
+//
+//        File dir = new File( pathToDir );
+//        if( !dir.isDirectory() ) {
+//            throw( new InvalidPathException(
+//                pathToDir, "Error: " + pathToDir + " is not a directory" ));
+//        }
+//    }
+
     /**
+     * Main method: validates directory, gets paths of all files (incl. subidrectories), 
+     *   creates and loads the table of checksums for the files, and then prints out duplicates.
      * @param pathToDir directory to scan
      * @param subdirFlag scan the subdirectories as well?
+     * @return  boolean: duplicates found/not found
      */
-    DirDeduper( String pathToDir, boolean subdirFlag, DupeTable table ) {
+    boolean go( String pathToDir, boolean subdirFlag, DupeTable table) {
+
         origPath = Objects.requireNonNull( pathToDir );
         subdirs = subdirFlag;
         chksumTable = table;
@@ -38,14 +60,6 @@ class DirDeduper {
             throw( new InvalidPathException(
                 pathToDir, "Error: " + pathToDir + " is not a directory" ));
         }
-    }
-
-    /**
-     * Main method: validates directory, gets paths of all files (incl. subidrectories), 
-     *   creates and loads the table of checksums for the files, and then prints out duplicates.
-     * @return  boolean: duplicates found/not found
-     */
-    boolean go() {
 
         // create a list of all the files in the directory and its subdirectories
         Path path = FileSystems.getDefault().getPath( origPath );
@@ -57,20 +71,14 @@ class DirDeduper {
 
         System.out.println("Number of files found to check: " + fileSet.size());
 
-//        // create the table for the checksums
-//        chksumTable = TreeMultimap.create();
-
         // calculate checksum for every file in fileSet and insert it into a hash table
         fileSet.forEach( this::updateChecksums );
 
-//        System.out.println( "Number of files checked: " + chksumTable.size() );
         System.out.println( "Number of files checked: " + chksumTable.getSize() );
 
-//        NavigableSet<Long> keys = chksumTable.keySet();
         NavigableSet<Long> keys = chksumTable.getKeySet();
 
         for( Long key : keys ) {
-//            NavigableSet<String> paths = chksumTable.get( key );
             NavigableSet<String> paths = chksumTable.getEntry( key );
             if( paths.size() > 1) {
                 duplicatesFound = true;
@@ -96,7 +104,6 @@ class DirDeduper {
      */
     Path updateChecksums( Path p ) {
         long chksum = new FileChecksum( p ).calculate();
-//        chksumTable.put( chksum, p.toString() );
         chksumTable.insertFile( p.toString(), chksum );
         System.out.println( "checksum: " + chksum + " file: " + p );
         return p;

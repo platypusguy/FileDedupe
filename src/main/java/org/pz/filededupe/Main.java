@@ -57,16 +57,18 @@ public class Main {
         // Create the dupe table, where file checksums are stored
         DupeTable dupeTable = new DupeTable();
 
-        // Call the dupe-file checking routines on each specified directory
+        // Create the directory deduping engine
+        DirDeduper dirDeduper = new DirDeduper();
+
+        // Call the deduping engine on each specified directory
         if( dirs.size() > 0 ) {
             for( String dir : dirs )
-                new DirDeduper(dir, nosubdirs, dupeTable).go();
+                dirDeduper.go( dir, nosubdirs, dupeTable );
         }
         else {  //happens only if a single dash option other than -h is specified
             System.err.println( "Error: no directory specified. Exiting");
         }
     }
-
 
     private static void printCopyright()
     {
