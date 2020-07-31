@@ -21,6 +21,7 @@ import java.util.zip.CRC32;
 public class FileChecksum {
 
     private String filename;
+    final static Integer FILE_ERROR = 1;
     
     FileChecksum( File f ) {
         filename = f.getPath();
@@ -45,7 +46,7 @@ public class FileChecksum {
             file = new FileInputStream(filename);
         } catch( FileNotFoundException e ) {
             System.err.println( "Error: File " + filename + " not found.");
-            return( Status.FILE_ERROR );
+            return( FILE_ERROR );    //TODO: rethrow the exception rather than return err
         }
 
         CheckedInputStream check = new CheckedInputStream(file, new CRC32());
@@ -58,7 +59,7 @@ public class FileChecksum {
             in.close();
         } catch( IOException e ) {
             System.err.println( "Error reading file: " + filename);
-            return( Status.FILE_ERROR );
+            return( FILE_ERROR );  //TODO: rethrow the exception rather than return err
         }
 
         return(check.getChecksum().getValue());
