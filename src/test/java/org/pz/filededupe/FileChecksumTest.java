@@ -36,8 +36,8 @@ public class FileChecksumTest {
             file = folder.newFile("testfile.txt");
         }
         catch( IOException ioe ) {
-            String className = this.getClass().getCanonicalName();
-            System.err.println( "error creating temporary test file in " +  this.getClass().getSimpleName() );
+            System.err.println( "error creating temporary test file in " +
+                this.getClass().getSimpleName() );
         }
     }
 
@@ -49,15 +49,19 @@ public class FileChecksumTest {
 
         PrintStream originalStderr = System.err;
 
-        // capture stdout
+        // capture stderr
         OutputStream os = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream( os );
         System.setErr( ps );
 
         FileChecksum fc = new FileChecksum( Paths.get( "nonexistentfile.txt" ));
-        long checksum = fc.calculate();
+        try {
+            fc.calculate();
+        }
+        catch( IOException ignored ) {
+            //do nothing, as we want to cause the exception and check the error message
+        }
         assertTrue( os.toString().startsWith( "Error: File nonexistentfile.txt not found" ));
-        assertEquals( Status.FILE_ERROR, checksum );
 
         // restore stderr
         System.setErr( originalStderr );
@@ -69,8 +73,14 @@ public class FileChecksumTest {
     @Test
     public void calculateOnEmptyFile() {
         FileChecksum fc = new FileChecksum( file );
-        long result = fc.calculate();
-        assertEquals(0L, result);
+        try {
+            long result = fc.calculate();
+            assertEquals(0L, result);
+        }
+        catch( IOException e ) {
+            fail( "Unexpected exception in test " +
+                  this.getClass().getSimpleName() );
+        }
     }
 
     /**
@@ -90,7 +100,13 @@ public class FileChecksumTest {
         }
 
         FileChecksum fc = new FileChecksum( file );
-        long result = fc.calculate();
-        assertNotEquals(0L, result);
+        try {
+            long result = fc.calculate();
+            assertNotEquals(0L, result);
+        }
+        catch( IOException e ) {
+            fail( "Unexpected exception in test " +
+                this.getClass().getSimpleName() );
+        }
     }
 }
