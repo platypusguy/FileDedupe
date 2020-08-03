@@ -14,7 +14,6 @@ import org.junit.rules.TemporaryFolder;
 
 import java.io.*;
 import java.nio.file.InvalidPathException;
-import java.nio.file.Paths;
 
 import static org.junit.Assert.*;
 
