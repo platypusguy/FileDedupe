@@ -111,6 +111,7 @@ public class DirDeduperTest {
      */
     @Test
     public void testDirectoryWith1FileWithNoSubdirs() {  //TODO: This test fails, but the previous one passes
+                                                         // only difference is -nosubdirs flag
                                                          // Also see the TODO item in next test.
 
         PrintStream originalStdout = System.out;
