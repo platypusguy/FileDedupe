@@ -1,6 +1,6 @@
 /*
  * Looks for duplicate files based on CRC-32 checksumming.
- * Project requires JDK 11 or later.
+ * Project requires JDK 8 or later.
  *
  * Copyright (c) 2017-20 by Andrew Binstock. All rights reserved.
  * Licensed under the Creative Commons Attribution, Share Alike license

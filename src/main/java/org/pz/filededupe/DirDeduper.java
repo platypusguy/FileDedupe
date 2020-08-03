@@ -27,10 +27,10 @@ class DirDeduper {
      * Main method: validates directory, gets paths of all files (incl. subidrectories), 
      *   creates and loads the table of checksums for the files, and then prints out duplicates.
      * @param pathToDir directory to scan
-     * @param subdirFlag scan the subdirectories as well?
+     * @param noSubdirFlag skip scanning the subdirectories?
      * @return  boolean: duplicates found/not found
      */
-    public boolean go( String pathToDir, boolean subdirFlag, DupeTable table) {
+    public boolean go( String pathToDir, boolean noSubdirFlag, DupeTable table) {
 
         String origPath = Objects.requireNonNull( pathToDir );
         chksumTable = table;
@@ -43,7 +43,7 @@ class DirDeduper {
 
         // create a list of all the files in the directory and its subdirectories
         Path path = FileSystems.getDefault().getPath( origPath );
-        ArrayList<Path> fileSet = new DirFileListMaker().go( path, subdirFlag );
+        ArrayList<Path> fileSet = new DirFileListMaker().go( path, noSubdirFlag );
         if( fileSet.isEmpty() ) {
             System.out.println("Directory " + origPath + " contains no files");
             return( false );
