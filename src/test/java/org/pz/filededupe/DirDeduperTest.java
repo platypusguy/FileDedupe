@@ -110,7 +110,7 @@ public class DirDeduperTest {
      * that is, that there were no duplicates found. This tests both things when no subdirs are scanned.
      */
     @Test
-    public void testDirectoryWith1FileWithNoSubdirs() {  //TODO: This test fails. Also see TODO in next test
+    public void testDirectoryWith1FileWithNoSubdirs() {  //TODO: This test fails. Also see TODO in next test.
 
         PrintStream originalStdout = System.out;
 
