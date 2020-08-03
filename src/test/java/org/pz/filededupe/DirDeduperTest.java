@@ -28,15 +28,15 @@ public class DirDeduperTest {
     @Test (expected = NullPointerException.class)
     public void testNullPathToDir() {
         new DirDeduper().go( null, false, new DupeTable() );
-        fail( "Expected a NullPointerException to be thrown in " +
-            this.getClass().getSimpleName() );
+        fail("Expected a NullPointerException to be thrown in " +
+            this.getClass().getSimpleName());
     }
 
     @Test (expected = InvalidPathException.class)
     public void testNonDirectoryPath() {
         new DirDeduper().go( "", false, new DupeTable() );
-        fail( "Expected a InvalidPathException to be thrown in " +
-            this.getClass().getSimpleName() );
+        fail("Expected a InvalidPathException to be thrown in " +
+            this.getClass().getSimpleName());
     }
 
     /**
