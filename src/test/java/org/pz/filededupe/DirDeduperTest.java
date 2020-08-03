@@ -165,7 +165,7 @@ public class DirDeduperTest {
         DupeTable dupeTable = new DupeTable();
         String directory =  folder.getRoot().getPath();
         boolean noSubdirs = false;         //TODO: This test fails when = true, but it should pass.
-                                           // see note in previous test
+                                           // see note about this in previous test
         DirDeduper dd = new DirDeduper();
         boolean dupesFound = dd.go( directory, noSubdirs, dupeTable);
         assertTrue( dupesFound );
