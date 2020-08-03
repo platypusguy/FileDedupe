@@ -17,7 +17,8 @@ import static org.junit.Assert.*;
 
 
 /**
- * @author alb
+ * Test the file-checksumming routines
+ * @author Andrew Binstock (@platyusguy)
  */
 
 public class FileChecksumTest {
