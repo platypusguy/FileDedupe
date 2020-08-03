@@ -109,11 +109,7 @@ public class DirDeduperTest {
      * that is, that there were no duplicates found. This tests both things when no subdirs are scanned.
      */
     @Test
-    public void testDirectoryWith1FileWithNoSubdirs() {  //TODO: This test fails, but the previous one passes
-                                                         // only difference is -nosubdirs flag
-                                                         // Also see the TODO item in next test.
-                                                         // If not quickly solved, create issue.
-
+    public void testDirectoryWith1FileWithNoSubdirs() {
         PrintStream originalStdout = System.out;
 
         // capture stdout
@@ -163,8 +159,7 @@ public class DirDeduperTest {
 
         DupeTable dupeTable = new DupeTable();
         String directory =  folder.getRoot().getPath();
-        boolean noSubdirs = false;         //TODO: This test fails when = true, but it should pass.
-                                           // see note about this in previous test
+        boolean noSubdirs = false;
         DirDeduper dd = new DirDeduper();
         boolean dupesFound = dd.go( directory, noSubdirs, dupeTable);
         assertTrue( dupesFound );
