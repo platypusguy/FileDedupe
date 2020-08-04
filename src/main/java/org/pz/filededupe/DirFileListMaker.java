@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  */
 class DirFileListMaker
 {
-    ArrayList<Path> go( Path dir, boolean scanSubDirs ) {
+    ArrayList<Path> go( Path dir, boolean skipSubDirs ) {
         if( dir == null || dir.toString().isEmpty() )
             throw( new InvalidParameterException(
                 "Error: Directory to process is null or empty in " +
@@ -36,9 +36,9 @@ class DirFileListMaker
             //Files.walk's second param gives depth of subdirs to search
             // Integer.MAX_VALUE means, search all subdirectories
             fileSet =
-                Files.walk( dir, scanSubDirs? 1 :Integer.MAX_VALUE )
+                Files.walk( dir, skipSubDirs? 1 : Integer.MAX_VALUE )
                     .filter( p -> p.toFile().isFile() )
-                    .peek(System.out::println)
+                    .peek( System.out::println )
                     .collect( Collectors.toCollection( ArrayList::new ));
         } catch( Throwable t ) {
             System.err.println("Exception creating fileset in " +
