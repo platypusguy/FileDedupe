@@ -41,8 +41,8 @@ class DirFileListMaker
                     .peek( System.out::println )
                     .collect( Collectors.toCollection( ArrayList::new ));
         } catch( Throwable t ) {
-            System.err.println("Exception creating fileset in " +
-                                     this.getClass().getSimpleName());
+            System.err.println("Error creating fileset in " + dir +
+                                    "Directory will be skipped." );
             //return an empty ArrayList in case of error
             return( new ArrayList<>(0) );
         }
