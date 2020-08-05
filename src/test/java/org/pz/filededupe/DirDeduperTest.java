@@ -27,21 +27,21 @@ public class DirDeduperTest {
 
     @Test (expected = NullPointerException.class)
     public void testNullPathToDir() {
-        new DirDeduper().go( null, false, new DupeTable() );
+        new DirDeduper().go( null, false, new DupesTable() );
         fail("Expected a NullPointerException to be thrown in " +
             this.getClass().getSimpleName());
     }
 
     @Test (expected = InvalidPathException.class)
     public void testNonDirectoryPath() {
-        new DirDeduper().go( "", false, new DupeTable() );
+        new DirDeduper().go( "", false, new DupesTable() );
         fail("Expected a InvalidPathException to be thrown in " +
             this.getClass().getSimpleName());
     }
 
     /**
-     * An empty directory should generate a message on stdout and return false from go(), indicating
-     * that no duplicates were found. Both things are tested here.
+     * An empty directory should generate a message on stdout and return false from go(),
+     * indicating that no duplicates were found. Both things are tested here.
      */
     @Test
     public void testEmptyDirectory() {
@@ -61,7 +61,7 @@ public class DirDeduperTest {
             fail( "IOException in " + this.getClass().getSimpleName() );
         }
         DirDeduper dd = new DirDeduper();
-        assertFalse( dd.go( createdSubFolder.getPath(), true, new DupeTable() ));
+        assertFalse( dd.go( createdSubFolder.getPath(), true, new DupesTable() ));
 
         String output = os.toString();
         assertTrue( output.contains( "contains no files" ));
@@ -90,11 +90,11 @@ public class DirDeduperTest {
             fail( "IOException in " + this.getClass().getSimpleName() );
         }
 
-        DupeTable dupeTable = new DupeTable();
+        DupesTable dupesTable = new DupesTable();
         String directory =  folder.getRoot().getPath();
         boolean noSubdirs = false;
         DirDeduper dd = new DirDeduper();
-        boolean dupesFound = dd.go( directory, noSubdirs, dupeTable );
+        boolean dupesFound = dd.go( directory, noSubdirs, dupesTable );
         assertFalse( dupesFound );
 
         String output = os.toString();
@@ -123,11 +123,11 @@ public class DirDeduperTest {
             fail( "IOException in " + this.getClass().getSimpleName() );
         }
 
-        DupeTable dupeTable = new DupeTable();
+        DupesTable dupesTable = new DupesTable();
         String directory =  folder.getRoot().getPath();
         boolean noSubdirs = true;
         DirDeduper dd = new DirDeduper();
-        boolean dupesFound = dd.go( directory, noSubdirs, dupeTable );
+        boolean dupesFound = dd.go( directory, noSubdirs, dupesTable );
         assertFalse( dupesFound );
 
         String output = os.toString();
@@ -157,11 +157,11 @@ public class DirDeduperTest {
             fail( "IOException in " + this.getClass().getSimpleName() );
         }
 
-        DupeTable dupeTable = new DupeTable();
+        DupesTable dupesTable = new DupesTable();
         String directory =  folder.getRoot().getPath();
         boolean noSubdirs = false;
         DirDeduper dd = new DirDeduper();
-        boolean dupesFound = dd.go( directory, noSubdirs, dupeTable);
+        boolean dupesFound = dd.go( directory, noSubdirs, dupesTable);
         assertTrue( dupesFound );
 
         String output = os.toString();

@@ -18,7 +18,7 @@ import java.util.*;
  */
 class DirDeduper {
 
-    private DupeTable chksumTable;
+    private DupesTable chksumTable;
     private boolean duplicatesFound = false;
 
     public DirDeduper() {}
@@ -30,7 +30,7 @@ class DirDeduper {
      * @param noSubdirFlag skip scanning the subdirectories?
      * @return  boolean: duplicates found/not found
      */
-    public boolean go( String pathToDir, boolean noSubdirFlag, DupeTable table) {
+    public boolean go( String pathToDir, boolean noSubdirFlag, DupesTable table) {
 
         String origPath = Objects.requireNonNull( pathToDir );
         chksumTable = table;
@@ -54,10 +54,10 @@ class DirDeduper {
         // calculate checksum for every file in fileSet and insert it into a hash table
         fileSet.forEach( this::updateChecksums );
 
-        NavigableSet<Long> keys = chksumTable.getKeySet();
+        Set<Long> keys = chksumTable.getKeySet();
 
         for( Long key : keys ) {
-            NavigableSet<String> paths = chksumTable.getEntry( key );
+            ArrayList<String> paths = chksumTable.getEntry( key );
             if( paths.size() > 1) {
                 duplicatesFound = true;
                 System.out.println( "These files are the same:");

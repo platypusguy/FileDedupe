@@ -55,7 +55,7 @@ public class Main {
         }
 
         // Create the dupe table, where file checksums are stored
-        DupeTable dupeTable = new DupeTable();
+        DupesTable dupesTable = new DupesTable();
 
         // Create the directory deduping engine
         DirDeduper dirDeduper = new DirDeduper();
@@ -63,7 +63,7 @@ public class Main {
         // Call the deduping engine on each specified directory
         if( dirs.size() > 0 ) {
             for( String dir : dirs )
-                dirDeduper.go( dir, nosubdirs, dupeTable );
+                dirDeduper.go( dir, nosubdirs, dupesTable );
         }
         else {  //happens only if a single dash option other than -h is specified
             System.err.println( "Error: no directory specified. Exiting");
