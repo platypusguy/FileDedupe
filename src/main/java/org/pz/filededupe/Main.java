@@ -81,7 +81,7 @@ public class Main {
         System.out.println(
             "FileDedupe finds duplicate files in a diretory or disk drive.\n" +
             "arguments: one or more directories to process;\n" +
-            "           -nosubdirs do not check subdirectories (default: checks all subdirs)" +
+            "           -nosubdirs do not check subdirectories (default: checks all subdirs)\n" +
             "           -h or -help prints this message"
         );
     }
