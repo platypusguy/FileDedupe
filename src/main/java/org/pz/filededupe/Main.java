@@ -68,6 +68,12 @@ public class Main {
         else {  //happens only if a single dash option other than -h is specified
             System.err.println( "Error: no directory specified. Exiting");
         }
+
+        // Scan the dupesTable and print out all duplicates to stdout
+        DupesOutput dupesList = new DupesOutput();
+        int dupesCount = dupesList.showDupes( dupesTable );
+
+        System.out.println( "Number of duplicates found: " + dupesCount );
     }
 
     private static void printCopyright()

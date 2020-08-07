@@ -19,7 +19,6 @@ import java.util.*;
 class DirDeduper {
 
     private DupesTable chksumTable;
-    private boolean duplicatesFound = false;
 
     public DirDeduper() {}
 
@@ -30,7 +29,7 @@ class DirDeduper {
      * @param noSubdirFlag skip scanning the subdirectories?
      * @return  boolean: duplicates found/not found
      */
-    public boolean go( String pathToDir, boolean noSubdirFlag, DupesTable table) {
+    public int go( String pathToDir, boolean noSubdirFlag, DupesTable table) {
 
         String origPath = Objects.requireNonNull( pathToDir );
         chksumTable = table;
@@ -46,7 +45,7 @@ class DirDeduper {
         ArrayList<Path> fileSet = new DirFileListMaker().go( path, noSubdirFlag );
         if( fileSet.isEmpty() ) {
             System.out.println("Directory " + origPath + " contains no files");
-            return( false );
+            return( 0 );
         }
 
         System.out.println("Number of files found to check: " + fileSet.size());
@@ -54,25 +53,25 @@ class DirDeduper {
         // calculate checksum for every file in fileSet and insert it into a hash table
         fileSet.forEach( this::updateChecksums );
 
-        Set<Long> keys = chksumTable.getKeySet();
+//        Set<Long> keys = chksumTable.getKeySet();
+//
+//        for( Long key : keys ) {
+//            ArrayList<String> paths = chksumTable.getEntry( key );
+//            if( paths.size() > 1) {
+//                duplicatesFound = true;
+//                System.out.println( "These files are the same:");
+//                for( String filepath : paths) {
+//                    System.out.println( "\t" + filepath );
+//                }
+//                System.out.println();
+//            }
+//        }
+//
+//        if( ! duplicatesFound ) {
+//            System.out.println( "No duplicate files found in or below " + origPath );
+//        }
 
-        for( Long key : keys ) {
-            ArrayList<String> paths = chksumTable.getEntry( key );
-            if( paths.size() > 1) {
-                duplicatesFound = true;
-                System.out.println( "These files are the same:");
-                for( String filepath : paths) {
-                    System.out.println( "\t" + filepath );
-                }
-                System.out.println();
-            }
-        }
-
-        if( ! duplicatesFound ) {
-            System.out.println( "No duplicate files found in or below " + origPath );
-        }
-
-        return( duplicatesFound );
+        return( fileSet.size() );
     }
 
     /**

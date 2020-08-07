@@ -61,7 +61,7 @@ public class DirDeduperTest {
             fail( "IOException in " + this.getClass().getSimpleName() );
         }
         DirDeduper dd = new DirDeduper();
-        assertFalse( dd.go( createdSubFolder.getPath(), true, new DupesTable() ));
+        assertEquals( 0, dd.go( createdSubFolder.getPath(), true, new DupesTable() ));
 
         String output = os.toString();
         assertTrue( output.contains( "contains no files" ));
@@ -94,8 +94,8 @@ public class DirDeduperTest {
         String directory =  folder.getRoot().getPath();
         boolean noSubdirs = false;
         DirDeduper dd = new DirDeduper();
-        boolean dupesFound = dd.go( directory, noSubdirs, dupesTable );
-        assertFalse( dupesFound );
+        int dupesFound = dd.go( directory, noSubdirs, dupesTable );
+        assertEquals( 1, dupesFound );
 
         String output = os.toString();
         assertTrue( output.contains( "Number of files found to check: 1" ));
@@ -127,8 +127,8 @@ public class DirDeduperTest {
         String directory =  folder.getRoot().getPath();
         boolean noSubdirs = true;
         DirDeduper dd = new DirDeduper();
-        boolean dupesFound = dd.go( directory, noSubdirs, dupesTable );
-        assertFalse( dupesFound );
+        int filesFound = dd.go( directory, noSubdirs, dupesTable );
+        assertEquals( 1, filesFound );
 
         String output = os.toString();
         assertTrue( output.contains( "Number of files found to check: 1" ));
@@ -161,8 +161,11 @@ public class DirDeduperTest {
         String directory =  folder.getRoot().getPath();
         boolean noSubdirs = false;
         DirDeduper dd = new DirDeduper();
-        boolean dupesFound = dd.go( directory, noSubdirs, dupesTable);
-        assertTrue( dupesFound );
+        int filesFound = dd.go( directory, noSubdirs, dupesTable);
+        assertEquals( 2, filesFound );
+
+        DupesOutput dupesList = new DupesOutput();
+        dupesList.showDupes( dupesTable );
 
         String output = os.toString();
         assertTrue( output.contains( "Number of files found to check: 2" ));
