@@ -27,7 +27,7 @@ class DirDeduper {
      *   creates and loads the table of checksums for the files, and then prints out duplicates.
      * @param pathToDir directory to scan
      * @param noSubdirFlag skip scanning the subdirectories?
-     * @return  boolean: duplicates found/not found
+     * @return total number of files examined
      */
     public int go( String pathToDir, boolean noSubdirFlag, DupesTable table) {
 
@@ -53,24 +53,7 @@ class DirDeduper {
         // calculate checksum for every file in fileSet and insert it into a hash table
         fileSet.forEach( this::updateChecksums );
 
-//        Set<Long> keys = chksumTable.getKeySet();
-//
-//        for( Long key : keys ) {
-//            ArrayList<String> paths = chksumTable.getEntry( key );
-//            if( paths.size() > 1) {
-//                duplicatesFound = true;
-//                System.out.println( "These files are the same:");
-//                for( String filepath : paths) {
-//                    System.out.println( "\t" + filepath );
-//                }
-//                System.out.println();
-//            }
-//        }
-//
-//        if( ! duplicatesFound ) {
-//            System.out.println( "No duplicate files found in or below " + origPath );
-//        }
-
+        // return the total number of files examined
         return( fileSet.size() );
     }
 
