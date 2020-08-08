@@ -20,7 +20,7 @@ import java.util.zip.CRC32;
  */
 public class FileChecksum {
 
-    private String filename;
+    private final String filename;
 
     FileChecksum( File f ) {
         filename = f.getPath();
@@ -37,6 +37,7 @@ public class FileChecksum {
      * @return the checksum computed for the file; on error, an error code
      * If an error occurs, the error message is printed to stderr here, so
      * it need not be reported to the user later.
+     * @throws IOException in event of a problem reading the file
      */
     long calculate() throws IOException {
         FileInputStream file;

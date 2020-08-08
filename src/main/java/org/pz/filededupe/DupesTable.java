@@ -10,14 +10,30 @@ package org.pz.filededupe;
 
 import java.util.*;
 
+/**
+ * Data structure to hold checksums and the filenames they correspond to
+ * @author alb
+ */
+
 public class DupesTable {
 
-    private HashMap<Long, ArrayList<String>> dupesTable;
+    /**
+     *  the main data structure, with a checksum (Long)
+     *  pointing to an ArrayList of filenames.
+     */
+    private final HashMap<Long, ArrayList<String>> dupesTable;
 
     public DupesTable() {
         dupesTable = new HashMap<>();
     }
 
+    /**
+     * Inserts a new file and checksum; if the checksum is
+     * already in the table, then the filename is added to the
+     * list of files with that checksum (which indicates a duplicate)
+     * @param filename  the filename to add
+     * @param checksum  the file checksum to add
+     */
     public void insertFile( String filename, Long checksum ) {
         ArrayList tableEntry = dupesTable.get( checksum );
         if( tableEntry == null ) {  // not found yet in table
@@ -29,8 +45,6 @@ public class DupesTable {
             tableEntry.add( filename );
         }
     }
-
-    public int getSize() { return dupesTable.size(); }
 
     public Set<Long> getKeySet() {
         return dupesTable.keySet();

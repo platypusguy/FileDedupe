@@ -27,6 +27,7 @@ class DirDeduper {
      *   creates and loads the table of checksums for the files, and then prints out duplicates.
      * @param pathToDir directory to scan
      * @param noSubdirFlag skip scanning the subdirectories?
+     * @param table the table to hold the checksums
      * @return total number of files examined
      */
     public int go( String pathToDir, boolean noSubdirFlag, DupesTable table) {
