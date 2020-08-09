@@ -43,7 +43,7 @@ public class FileChecksum {
         FileInputStream file;
 
         try {
-            file = new FileInputStream(filename);
+            file = new FileInputStream( filename );
         } catch( FileNotFoundException e ) {
             System.err.println( "Error: File " + filename + " not found.");
             throw( new IOException( e.toString() ));
@@ -59,6 +59,9 @@ public class FileChecksum {
             in.close();
         } catch( IOException e ) {
             System.err.println( "Error reading file: " + filename );
+            check.close();
+            in.close();
+            file.close();
             throw( new IOException( e.toString() ));
         }
 

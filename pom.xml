@@ -15,6 +15,11 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<java.version>1.8</java.version>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<maven.build.timestamp.format>MMM d, YYYY h:mm a z</maven.build.timestamp.format>
 	</properties>
 
 	<description>
@@ -45,12 +50,30 @@
 				<version>3.2.0</version>
 				<configuration>
 					<show>private</show>
+					<footer>Generated ${maven.build.timestamp}, (c) Copyright 2020 Andrew Binstock</footer>
 				</configuration>
 			</plugin>
 		</plugins>
-
-		
 	</build>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<version>4.0.4</version>
+				<configuration>
+					<effort>Max</effort>
+					<threshold>Low</threshold>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-project-info-reports-plugin</artifactId>
+				<version>2.7</version>
+			</plugin>
+		</plugins>
+	</reporting>
 
 	<dependencies>
 		<dependency>
