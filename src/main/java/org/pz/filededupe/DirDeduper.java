@@ -66,7 +66,7 @@ class DirDeduper {
         try {
             long chksum = new FileChecksum(p).calculate();
             chksumTable.insertFile( p.toString(), chksum );
-            System.out.println( "checksum: " + chksum + " file: " + p );
+        //  System.out.println( "checksum: " + chksum + " file: " + p );
         } catch( IOException e ) {
             // error message has already been displayed, so skip this file
         }
