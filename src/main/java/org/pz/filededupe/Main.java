@@ -35,8 +35,8 @@ public class Main {
         }
 
         List<String> argList = Arrays.asList(args);
-        if( argList.contains( "-h") || argList.contains( "-help") ||
-            argList.contains( "--help")) {
+        if( argList.contains( "-h" )  || argList.contains( "-help" ) ||
+            argList.contains( "--h" ) || argList.contains( "--help" )) {
             showUsage();
             return;
         }
@@ -47,7 +47,8 @@ public class Main {
                 dirs.add( arg );
             }
             else {
-                if( arg.equalsIgnoreCase( "-nosubdirs" )) {
+                if( arg.equalsIgnoreCase( "-nosubdirs" ) ||
+                    arg.equalsIgnoreCase( "--nosubdirs")) {
                     nosubdirs = true;
                 }
                 else {
