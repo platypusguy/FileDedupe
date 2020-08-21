@@ -35,7 +35,8 @@ public class Main {
         }
 
         List<String> argList = Arrays.asList(args);
-        if( argList.contains( "-h") || argList.contains( "-help")) {
+        if( argList.contains( "-h") || argList.contains( "-help") ||
+            argList.contains( "--help")) {
             showUsage();
             return;
         }
@@ -82,7 +83,7 @@ public class Main {
      */
     private static void printCopyright() {
         System.out.println(
-            "FileDedupe v.1.0 (c) Copyright 2017-20 Andrew Binstock. All rights reserved.\n" );
+            "FileDedupe v.1.1 (c) Copyright 2017-20 Andrew Binstock. All rights reserved.\n" );
     }
 
     /**
