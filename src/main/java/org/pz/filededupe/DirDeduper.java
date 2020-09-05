@@ -18,8 +18,7 @@ import java.util.*;
  */
 class DirDeduper {
 
-    private DupesTable chksumTable;
-
+    private LongStringListTable chksumTable;
     public DirDeduper() {}
 
     /**
@@ -30,8 +29,7 @@ class DirDeduper {
      * @param table the table to hold the checksums
      * @return total number of files examined
      */
-    public int go( String pathToDir, boolean noSubdirFlag, DupesTable table) {
-
+    public int go( String pathToDir, boolean noSubdirFlag, LongStringListTable table) {
         String origPath = Objects.requireNonNull( pathToDir );
         chksumTable = table;
 
@@ -65,7 +63,7 @@ class DirDeduper {
     void updateChecksums( Path p ) {
         try {
             long chksum = new FileChecksum(p).calculate();
-            chksumTable.insertFile( p.toString(), chksum );
+            chksumTable.insertEntry( p.toString(), chksum );
         //  System.out.println( "checksum: " + chksum + " file: " + p );
         } catch( IOException e ) {
             // error message has already been displayed, so skip this file

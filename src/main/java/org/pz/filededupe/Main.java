@@ -58,7 +58,7 @@ public class Main {
         }
 
         // Create the dupe table, where file checksums are stored
-        DupesTable dupesTable = new DupesTable();
+        LongStringListTable dupesTable = new LongStringListTable();
 
         // Create the directory deduping engine
         DirDeduper dirDeduper = new DirDeduper();
@@ -84,7 +84,7 @@ public class Main {
      */
     private static void printCopyright() {
         System.out.println(
-            "FileDedupe v.1.1 (c) Copyright 2017-20 Andrew Binstock. All rights reserved.\n" );
+            "FileDedupe v.1.2 (c) Copyright 2017-20 Andrew Binstock. All rights reserved.\n" );
     }
 
     /**

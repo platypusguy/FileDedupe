@@ -23,7 +23,8 @@ public class DupesOutput {
      * @param dupes the table of file checksums, which shows the duplicate files
      * @return the number of duplicates found
      */
-    public int showDupes( DupesTable dupes ) {
+    public int showDupes(  LongStringListTable dupes ) {
+
 
         int dupesCount = 0;
 
