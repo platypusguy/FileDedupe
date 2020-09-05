@@ -25,7 +25,6 @@ public class DupesOutput {
      */
     public int showDupes(  LongStringListTable dupes ) {
 
-
         int dupesCount = 0;
 
         // get a set of all the keys (which are checksums)

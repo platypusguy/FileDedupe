@@ -33,7 +33,7 @@ public class LongStringListTable {
     /**
      * Inserts a new filename and a numeric value associated
      * with the file (size, cheksum, etc.) This numeric is
-     * the key to the entry, an ArrayList of associated filenames
+     * the key to the entry; an ArrayList of associated filenames
      * is the value.
      *   If a matching numeric key already exists in the table,
      * then the filename is added to the list of files associated
@@ -42,16 +42,10 @@ public class LongStringListTable {
      * @param filename  the filename to add
      * @param numeric  the numeric associated with the filename
      */
-    public void insertEntry(String filename, Long numeric ) {
-        ArrayList tableEntry = table.get( numeric );
-        if( tableEntry == null ) {  // not found yet in table
-            ArrayList<String> entry = new ArrayList<>();
-            entry.add( filename );
-            table.put( numeric, entry );
-        }
-        else {
-            tableEntry.add( filename );
-        }
+    public void insertEntry( String filename, Long numeric ) {
+        ArrayList<String> tableEntry =
+            table.computeIfAbsent( numeric, c -> new ArrayList<>() );
+        tableEntry.add( filename );
     }
 
     public Set<Long> getKeySet() {
