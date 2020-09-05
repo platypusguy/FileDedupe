@@ -27,14 +27,14 @@ public class DirDeduperTest {
 
     @Test (expected = NullPointerException.class)
     public void testNullPathToDir() {
-        new DirDeduper().go( null, false, new DupesTable() );
+        new DirDeduper().go( null, false, new LongStringListTable() );
         fail("Expected a NullPointerException to be thrown in " +
             this.getClass().getSimpleName());
     }
 
     @Test (expected = InvalidPathException.class)
     public void testNonDirectoryPath() {
-        new DirDeduper().go( "", false, new DupesTable() );
+        new DirDeduper().go( "", false, new LongStringListTable() );
         fail("Expected a InvalidPathException to be thrown in " +
             this.getClass().getSimpleName());
     }
@@ -61,7 +61,7 @@ public class DirDeduperTest {
             fail( "IOException in " + this.getClass().getSimpleName() );
         }
         DirDeduper dd = new DirDeduper();
-        assertEquals( 0, dd.go( createdSubFolder.getPath(), true, new DupesTable() ));
+        assertEquals( 0, dd.go( createdSubFolder.getPath(), true, new LongStringListTable() ));
 
         String output = os.toString();
         assertTrue( output.contains( "contains no files" ));
@@ -90,7 +90,7 @@ public class DirDeduperTest {
             fail( "IOException in " + this.getClass().getSimpleName() );
         }
 
-        DupesTable dupesTable = new DupesTable();
+        LongStringListTable dupesTable = new LongStringListTable();
         String directory =  folder.getRoot().getPath();
         boolean noSubdirs = false;
         DirDeduper dd = new DirDeduper();
@@ -123,7 +123,7 @@ public class DirDeduperTest {
             fail( "IOException in " + this.getClass().getSimpleName() );
         }
 
-        DupesTable dupesTable = new DupesTable();
+        LongStringListTable dupesTable = new LongStringListTable();
         String directory =  folder.getRoot().getPath();
         boolean noSubdirs = true;
         DirDeduper dd = new DirDeduper();
@@ -157,7 +157,7 @@ public class DirDeduperTest {
             fail( "IOException in " + this.getClass().getSimpleName() );
         }
 
-        DupesTable dupesTable = new DupesTable();
+        LongStringListTable dupesTable = new LongStringListTable();
         String directory =  folder.getRoot().getPath();
         boolean noSubdirs = false;
         DirDeduper dd = new DirDeduper();
