@@ -17,3 +17,10 @@ Options:
 
 ## Testing
 The tests included here generate code coverage of 90%. And FileDedupe has been tested repeatedly on directories of more than 600,000 files. 
+
+## Thanks
+Thanks to Oracle's _Java Magazine_ for running the articles on this utility. 
+
+Thanks to JetBrains for supporting open source by providing a license to [IntelliJ IDEA](https://www.jetbrains.com/idea/), which is an IDE that I have used since version 3.5.
+
+
