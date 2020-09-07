@@ -36,6 +36,7 @@ public class DupesOutput {
             if( paths.size() > 1) {
                 dupesCount += paths.size();
                 System.out.println( "These files are the same:");
+                paths.sort( null );
                 for( String filepath : paths) {
                     System.out.println( "\t" + filepath );
                 }
