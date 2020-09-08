@@ -36,6 +36,8 @@ public class DupesOutput {
             if( paths.size() > 1) {
                 dupesCount += paths.size();
                 System.out.println( "These files are the same:");
+                //sort the paths before showing them. null means use the natural order of sorting
+                //which for Strings is ascending, using standard String comparison
                 paths.sort( null );
                 for( String filepath : paths) {
                     System.out.println( "\t" + filepath );
