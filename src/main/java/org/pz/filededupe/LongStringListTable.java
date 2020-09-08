@@ -9,6 +9,7 @@
 package org.pz.filededupe;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -50,6 +51,10 @@ public class LongStringListTable {
 
     public Set<Long> getKeySet() {
         return table.keySet();
+    }
+
+    public Collection<ArrayList<String>> getFilenames() {
+        return table.values();
     }
 
     public ArrayList<String> getEntry( long key ) {
