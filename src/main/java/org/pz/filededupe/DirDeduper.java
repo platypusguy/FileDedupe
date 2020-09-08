@@ -19,6 +19,7 @@ import java.util.*;
 class DirDeduper {
 
     private LongStringListTable chksumTable;
+
     public DirDeduper() {}
 
     /**
