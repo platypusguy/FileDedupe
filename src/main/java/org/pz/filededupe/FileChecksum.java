@@ -29,6 +29,8 @@ public class FileChecksum {
     FileChecksum( Path p ) {
         this( p.toFile());
     }
+
+    FileChecksum( String s) { filename = s; }
     
     /**
      * Does the actual checksum calculation. Note that the only I/O is to
@@ -62,7 +64,7 @@ public class FileChecksum {
             check.close();
             in.close();
             file.close();
-            throw( new IOException( e.toString() ));
+//            throw( new IOException( e.toString() ));
         }
 
         return(check.getChecksum().getValue());
