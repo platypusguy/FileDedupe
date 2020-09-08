@@ -57,20 +57,28 @@ public class Main {
             }
         }
 
+        // Create the sizes table, where the file sizes are stored
+        LongStringListTable sizesTable = new LongStringListTable();
+
         // Create the dupe table, where file checksums are stored
         LongStringListTable dupesTable = new LongStringListTable();
 
-        // Create the directory deduping engine
-        DirDeduper dirDeduper = new DirDeduper();
+        // Create the filesize retrieval engine
+        FileSizer fileSizer = new FileSizer();
 
-        // Call the deduping engine on each specified directory
+        // Get the file sizes for all files in each specified directory
         if( dirs.size() > 0 ) {
             for( String dir : dirs )
-                dirDeduper.go( dir, nosubdirs, dupesTable );
+                fileSizer.loadFileSizes( dir, nosubdirs, sizesTable );
         }
         else {  //happens only if a single dash option other than -h is specified
-            System.err.println( "Error: no directory specified. Exiting");
+            System.err.println( "Error: no directory specified. Exiting" );
         }
+
+        // sizesTable now holds all the filenames and the corresponding file sizes
+        sizesTable.getFilenames().stream() // get the lists of files for each size
+            .filter( s -> s.size() > 1 )   // filter for lists of more than 1 file for a given size
+            .forEach( s -> new FilesChecksum( s, dupesTable ).go() );  // checksum those files
 
         // Scan the dupesTable and print out all duplicates to stdout
         DupesOutput dupesList = new DupesOutput();
@@ -79,12 +87,13 @@ public class Main {
         System.out.println( "Number of duplicates found: " + dupesCount );
     }
 
+
     /**
      * Simply prints the copyright
      */
     private static void printCopyright() {
         System.out.println(
-            "FileDedupe v.1.2 (c) Copyright 2017-20 Andrew Binstock. All rights reserved.\n" );
+            "FileDedupe v. 2.0 (c) Copyright 2017-20 Andrew Binstock. All rights reserved.\n" );
     }
 
     /**
