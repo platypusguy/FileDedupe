@@ -38,7 +38,7 @@ public class FilesChecksum {
             try {
                 checksumTable.insertEntry(file, new FileChecksum(file).calculate());
             } catch( IOException ioe ) {
-                System.err.println("Error encountered accessing: " + file);
+                continue; // error messages has already been shown to user; continue with the loop.
             }
         }
     }

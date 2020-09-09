@@ -30,7 +30,7 @@ public class FileChecksum {
         this( p.toFile());
     }
 
-    FileChecksum( String s) { filename = s; }
+    FileChecksum( String s ) { filename = s; }
     
     /**
      * Does the actual checksum calculation. Note that the only I/O is to
@@ -47,7 +47,7 @@ public class FileChecksum {
         try {
             file = new FileInputStream( filename );
         } catch( FileNotFoundException e ) {
-            System.err.println( "Error: File " + filename + " not found.");
+            System.err.println( "Error: File " + filename + " not found." );
             throw( new IOException( e.toString() ));
         }
 
@@ -64,7 +64,7 @@ public class FileChecksum {
             check.close();
             in.close();
             file.close();
-//            throw( new IOException( e.toString() ));
+            throw( new IOException( e.toString() ));
         }
 
         return(check.getChecksum().getValue());
