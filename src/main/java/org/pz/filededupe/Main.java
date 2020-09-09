@@ -60,9 +60,6 @@ public class Main {
         // Create the sizes table, where the file sizes are stored
         LongStringListTable sizesTable = new LongStringListTable();
 
-        // Create the dupe table, where file checksums are stored
-        LongStringListTable dupesTable = new LongStringListTable();
-
         // Create the filesize retrieval engine
         FileSizer fileSizer = new FileSizer();
 
@@ -74,6 +71,9 @@ public class Main {
         else {  //happens only if a single dash option other than -h is specified
             System.err.println( "Error: no directory specified. Exiting" );
         }
+
+        // Create the dupe table, where file checksums are stored
+        LongStringListTable dupesTable = new LongStringListTable();
 
         // sizesTable now holds all the filenames and the corresponding file sizes
         sizesTable.getFilenames().stream() // get the lists of files for each size
