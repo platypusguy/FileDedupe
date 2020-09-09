@@ -29,14 +29,14 @@ public class FileSizer {
      * @param nosubdirs  toggle saying whether to visit subdirectories
      * @param sizesTable the table that holds the file sizes and the corresponding filenames
      */
-    public void loadFileSizes(String dir, boolean nosubdirs, LongStringListTable sizesTable) {
+    public void loadFileSizes( String dir, boolean nosubdirs, LongStringListTable sizesTable ) {
         ArrayList<Path> files =
-            new DirFileListMaker().go( FileSystems.getDefault().getPath( dir ), nosubdirs);
+            new DirFileListMaker().go( FileSystems.getDefault().getPath( dir ), nosubdirs );
 
         files.forEach(  //for each file get the file length and add it to sizesTable
             f-> {
                 sizesTable.insertEntry( f.toString(), f.toFile().length() );
-                System.out.println( f.toString() +": "+ f.toFile().length());
+    //          System.out.println( f.toString() +": "+ f.toFile().length());
             }
         );
         //note: we don't worry about an empty directory here.
