@@ -24,6 +24,10 @@ public class FilesChecksum {
     LongStringListTable checksumTable;
     ArrayList<String> filenames;
 
+    /**
+     * @param files The files to be checksummed
+     * @param table The table where the filenames and checksums are inserted
+     */
     public FilesChecksum(ArrayList<String> files, LongStringListTable table) {
         filenames = Objects.requireNonNull( files );
         checksumTable = Objects.requireNonNull( table );
@@ -36,7 +40,7 @@ public class FilesChecksum {
     public void go() {
         for( String file : filenames ) {
             try {
-                checksumTable.insertEntry(file, new FileChecksum(file).calculate());
+                checksumTable.insertEntry( file, new FileChecksum( file ).calculate() );
             } catch( IOException ioe ) {
                 continue; // error messages has already been shown to user; continue with the loop.
             }
