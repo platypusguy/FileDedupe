@@ -7,7 +7,6 @@
  */
 package org.pz.filededupe;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -81,7 +80,7 @@ public class FilesChecksumTest {
                 this.getClass().getSimpleName() );
         }
 
-        ArrayList<String> fileList  = new ArrayList<String>();
+        ArrayList<String> fileList  = new ArrayList<>();
         fileList.add( file1.getAbsolutePath() );
         fileList.add( file2.getAbsolutePath() );
         fileList.add( file3.getAbsolutePath() );
