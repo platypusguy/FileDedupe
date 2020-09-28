@@ -17,7 +17,7 @@ Options:
 
 `-nosubdirs` this flag prevents FileDedupe from checking subdirectories for duplicates.
 
-`-help` or `-h` or '--h': shows this usage information
+`-help` or `-h` or `--h`: shows this usage information
 
 So, to run the utility on in the current directory:
 
