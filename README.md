@@ -9,7 +9,7 @@ An article on this utility and how it was designed and written appears in [Oracl
 
 Version 1.0 used a brute-force approach of running checksums on every file in the user-specified directories and then comparing the checksums to identify duplicates. This worked well, but was slow. 
 
-Version 2.0 uses comparisons of file sizes to greatly reduce the number of files that require checksums. It runs 9x-11x faster on the test directories. Use this version for your own needs.
+Version 2.0 uses comparisons of file sizes to greatly reduce the number of files that require checksums. It runs 9x-11x faster on the test directories. Use this version for your own needs. The optimization that delivered this benefit is described in [this article in Oracle's Java Magazine](https://blogs.oracle.com/javamagazine/the-joy-of-writing-command-line-utilities-part-2-the-souped-up-way-to-find-duplicate-files)
 
 ## How to run
 FileDedupe is written in Java 8. To run it, run the JAR file with the directory or directories to scan for duplicates. Note that directory of `.` is supported.
