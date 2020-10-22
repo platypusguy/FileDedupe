@@ -17,6 +17,8 @@ Options:
 
 `-nosubdirs` this flag prevents FileDedupe from checking subdirectories for duplicates.
 
+`-tofile` this flag saves a file with the duplicates in current user directory with filename format "dupes-yyyy-MM-dd---HH-mm-ss.txt"
+
 `-help` or `-h` or `--h`: shows this usage information
 
 So, to run the utility on in the current directory:
