@@ -9,10 +9,14 @@
  */
 package org.pz.filededupe;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.file.Path;
-import java.util.zip.CheckedInputStream;
 import java.util.zip.CRC32;
+import java.util.zip.CheckedInputStream;
 
 /**
  * Reads a file and computes its checksum
@@ -22,15 +26,15 @@ public class FileChecksum {
 
     private final String filename;
 
-    FileChecksum( File f ) {
+    public FileChecksum( File f ) {
         filename = f.getPath();
     }
     
-    FileChecksum( Path p ) {
+    public FileChecksum( Path p ) {
         this( p.toFile());
     }
 
-    FileChecksum( String s ) { filename = s; }
+    public FileChecksum( String s ) { filename = s; }
     
     /**
      * Does the actual checksum calculation. Note that the only I/O is to
@@ -41,7 +45,7 @@ public class FileChecksum {
      * it need not be reported to the user later.
      * @throws IOException in event of a problem reading the file
      */
-    long calculate() throws IOException {
+    public long calculate() throws IOException {
         FileInputStream file;
 
         try {

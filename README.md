@@ -17,6 +17,8 @@ Options:
 
 `-nosubdirs` this flag prevents FileDedupe from checking subdirectories for duplicates.
 
+`-tohtml` this flag saves an html file with the duplicates in current user directory with filename format "dupes-yyyy-MM-dd---HH-mm-ss.html"
+
 `-help` or `-h` or `--h`: shows this usage information
 
 So, to run the utility on in the current directory:
