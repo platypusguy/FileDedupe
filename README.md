@@ -26,6 +26,9 @@ So, to run the utility on in the current directory:
 ## Testing
 The tests included here generate code coverage of 80%. And FileDedupe has been tested repeatedly on directories of more than 600,000 files. 
 
+## Extension: HTML Report
+David V. Saraiva  forked the code presented here and added the ability to generate an HTML report of duplicates. His repository [here](https://github.com/davidvsaraiva/FileDedupe). 
+
 ## Thanks
 Thanks to Oracle's _Java Magazine_ for publishing the articles on this utility. 
 
