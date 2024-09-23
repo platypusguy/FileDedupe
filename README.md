@@ -1,5 +1,5 @@
 # FileDedupe
-Utility to list duplicate files in one or more directories. 
+Utility to list duplicate files in one or more directories based on the file contents (rather than the name). 
 
 ## What it is
 
